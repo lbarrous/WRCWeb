@@ -26,9 +26,8 @@
     <!-- Menu -->
     @include('includes.menuNav')
         <!-- Contenido -->
-
-
         @yield('contenido')
+
 
 </div>
 

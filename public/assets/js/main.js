@@ -1,5 +1,5 @@
 /*
-	Escape Velocity by HTML5 UP
+	TXT by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
@@ -35,10 +35,6 @@
 		// Fix: Placeholder polyfill.
 			$('form').placeholder();
 
-		// CSS polyfills (IE<9).
-			if (skel.vars.IEVersion < 9)
-				$(':last-child').addClass('last-child');
-
 		// Prioritize "important" elements on mobile.
 			skel.on('+mobile -mobile', function() {
 				$.prioritize(
@@ -47,12 +43,16 @@
 				);
 			});
 
+		// CSS polyfills (IE<9).
+			if (skel.vars.IEVersion < 9)
+				$(':last-child').addClass('last-child');
+
 		// Dropdowns.
 			$('#nav > ul').dropotron({
 				mode: 'fade',
 				noOpenerFade: true,
-				alignment: 'center',
-				detach: false
+				speed: 300,
+				alignment: 'center'
 			});
 
 		// Off-Canvas Navigation.
