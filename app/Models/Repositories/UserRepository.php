@@ -30,7 +30,8 @@ class UserRepository
 
         $user->name = $datos["name"];
         $user->email = $datos["email"];
-        $date = date('Y-m-d', strtotime($datos["birth"]));
+        $date = str_replace('/', '-', $datos["birth"]);
+        $date = date('Y-m-d', strtotime($date));
         $user->birth = $date;
 
         return $user->save();

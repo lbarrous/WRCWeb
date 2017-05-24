@@ -42,7 +42,9 @@ class UserController extends Controller
         }
         else {
             $this->repoRepository->actualizarUserByID(\Auth::user()->id, $request->all());
-            return view('perfil');
+            $datos["usuario"] = $this->repoRepository->getUserByID(\Auth::user()->id);
+            //$datos["usuario"]["birth"] = $date = str_replace('-', '/', $datos["usuario"]["birth"]);
+            return view('perfil')->with('datos', $datos);
         }
     }
 
@@ -50,7 +52,7 @@ class UserController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users,id',
             'birth' => 'required',
         ]);
     }
@@ -61,6 +63,7 @@ class UserController extends Controller
 
         if(!\Auth::guest()) {
             $datos["usuario"] = $this->repoRepository->getUserByID(\Auth::user()->id);
+            //$datos["usuario"]["birth"] = $date = str_replace('-', '/', $datos["usuario"]["birth"]);
         }
         return view('perfil')->with('datos', $datos);
     }
