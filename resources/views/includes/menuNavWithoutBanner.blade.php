@@ -18,20 +18,23 @@
     </div>
 </header>
 
+<?php strpos(Request::url(), "/home") > -1 ? $class_home_activa = 'current' : $class_home_activa = ''?>
+<?php strpos(Request::url(), "/login") > -1 || strpos(Request::url(), "/register") > -1 || strpos(Request::url(), "/perfil") > -1 ? $class_usuario_activa = 'current' : $class_usuario_activa = ''?>
+
 <!-- Nav -->
 <nav id="nav">
     <ul>
-        <li <?php strpos(Request::url(), "/home") > -1 ? 'class="current"' : ''?>><a href="{{url("/home")}}">Home</a></li>
+        <li class="{{$class_home_activa}}"><a href="{{url("/home")}}">Home</a></li>
         @if (Auth::guest())
-            <li>
-                <a href="#">Usuario</a>
+            <li class="{{$class_usuario_activa}}">
+                <a>Usuario</a>
                 <ul>
                     <li><a href="{{ url('/login') }}">Login</a></li>
                     <li><a href="{{ url('/register') }}">Registro</a></li>
                 </ul>
             </li>
         @else
-            <li>
+            <li class="{{$class_usuario_activa}}">
                 <a href="#">{{ Auth::user()->name }}</a>
                 <ul>
                     <li><a href="{{ url('/perfil') }}">Perfil</a></li>
@@ -41,8 +44,3 @@
         @endif
     </ul>
 </nav>
-
-<!-- Banner -->
-<div id="banner-wrapper">
-
-</div>

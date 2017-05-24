@@ -17,6 +17,13 @@ Route::get('/', function () {
 
 //Route::auth();
 
-Route::get('register', 'Auth\AuthController@getRegister');
+Route::get('register', [ 'as' => 'register', 'uses' => 'Auth\AuthController@getRegister']);
+Route::post('register/user', [ 'as' => 'register/user', 'uses' => 'Auth\AuthController@postRegister']);
+Route::get('login', [ 'as' => 'login', 'uses' => 'Auth\AuthController@getLogin']);
+Route::post('login/user', [ 'as' => 'login/user', 'uses' => 'Auth\AuthController@postLogin']);
+Route::get('logout', [ 'as' => 'logout', 'uses' => 'Auth\AuthController@getLogout']);
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('perfil', [ 'as' => 'perfil', 'uses' => 'UserController@showPerfil']);
+Route::post('perfil/actualizar', [ 'as' => 'perfil/actualizar', 'uses' => 'UserController@actualizarPerfil']);

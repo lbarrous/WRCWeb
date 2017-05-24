@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Alvaro
- * Date: 23/05/2017
- * Time: 1:38
+ * Date: 24/05/2017
+ * Time: 11:43
  */
 
 ?>
@@ -35,7 +35,7 @@
     <div id="main-wrapper">
 
         <div id="main" class="container">
-            <h2 class="major" style="margin: 0;"><span>Registro de nuevo usuario</span></h2>
+            <h2 class="major" style="margin: 0;"><span>Perfil de usuario</span></h2>
             <br>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-4">
@@ -54,31 +54,22 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Información de registro</div>
+                        <div class="panel-heading">Información del perfil</div>
 
                         <div class="panel-body">
-                            {!! Form::open(['route' => 'register/user', 'class' => 'form']) !!}
+                            {!! Form::open(['route' => 'perfil/actualizar', 'class' => 'form']) !!}
 
                             <div class="form-group">
                                 <label>Nombre</label>
-                                {!! Form::input('text', 'name', '', ['class'=> 'form-control']) !!}
+                                {!! Form::input('text', 'name', isset($datos['usuario']->name)?$datos['usuario']->name:'', ['class'=> 'form-control']) !!}
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                {!! Form::email('email', '', ['class'=> 'form-control']) !!}
+                                {!! Form::email('email', isset($datos['usuario']->email)?$datos['usuario']->email:'', ['class'=> 'form-control']) !!}
                             </div>
                             <div class="form-group">
                                 <label>Fecha de nacimiento</label>
-                                <input class="form-control datepicker" id="birth" name="birth" type="text" autocomplete="off" value=""/>
-                            </div>
-                            <div class="form-group">
-                                <label>Contraseña</label>
-                                {!! Form::password('password', ['class'=> 'form-control']) !!}
-                            </div>
-
-                            <div class="form-group">
-                                <label>Confirmar contraseña</label>
-                                {!! Form::password('password_confirmation', ['class'=> 'form-control']) !!}
+                                <input class="form-control datepicker" id="birth" name="birth" type="text" autocomplete="off" value="{{isset($datos['usuario']->birth)?date('d-m-Y', strtotime($datos['usuario']->birth)):''}}"/>
                             </div>
 
                             <div>

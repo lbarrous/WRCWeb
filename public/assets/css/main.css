@@ -1901,7 +1901,7 @@
 				font-family: 'Open Sans Condensed', sans-serif;
 				font-weight: 700;
 				text-transform: uppercase;
-				padding: 5em 0 2em 0;
+				padding: 4em 0 1em 0;
 				background: #fff;
 				margin: 0 auto;
 			}
@@ -2080,7 +2080,7 @@
 		/* Main */
 
 			#main {
-				padding: 6em 0 6em 0;
+				padding: 4em 0 6em 0;
 			}
 
 		/* Footer */

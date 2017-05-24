@@ -24,7 +24,7 @@
 
 <div id="page-wrapper">
     <!-- Menu -->
-    @include('includes.menuNav')
+    @include('includes.menuNavWithoutBanner')
         <!-- Contenido -->
         @yield('contenido')
 
