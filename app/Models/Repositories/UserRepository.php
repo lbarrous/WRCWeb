@@ -24,4 +24,15 @@ class UserRepository
     public function getUserByID($id) {
         return User::find($id);
     }
+
+    public function actualizarUserByID($id_user, $datos) {
+        $user = User::find($id_user);
+
+        $user->name = $datos["name"];
+        $user->email = $datos["email"];
+        $date = date('Y-m-d', strtotime($datos["birth"]));
+        $user->birth = $date;
+
+        return $user->save();
+    }
 }

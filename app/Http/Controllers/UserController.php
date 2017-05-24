@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use Validator;
 use Illuminate\Http\Request;
 use App\Models\Repositories\UserRepository;
 
@@ -30,9 +31,28 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function actualizarPerfil()
+    public function actualizarPerfil(Request $request)
     {
-        //return view('welcome');
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $msgerrors = $validator->messages()->all();
+            $datos["msgsErroresValidator"] = $msgerrors;
+            return view('perfil')->with($datos);
+        }
+        else {
+            $this->repoRepository->actualizarUserByID(\Auth::user()->id, $request->all());
+            return view('perfil');
+        }
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'birth' => 'required',
+        ]);
     }
 
     public function showPerfil()
