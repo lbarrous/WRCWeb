@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 //Route::auth();
 
+Route::get('mail', 'HomeController@mail');
+
 Route::get('register', [ 'as' => 'register', 'uses' => 'Auth\AuthController@getRegister']);
 Route::post('register/user', [ 'as' => 'register/user', 'uses' => 'Auth\AuthController@postRegister']);
 Route::get('login', [ 'as' => 'login', 'uses' => 'Auth\AuthController@getLogin']);
