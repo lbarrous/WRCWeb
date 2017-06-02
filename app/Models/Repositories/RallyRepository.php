@@ -7,9 +7,12 @@
  */
 
 namespace app\Models\Repositories;
+use App\Models\Entities\Rally;
 
 
 class RallyRepository
 {
-
+    public function getAllRallies() {
+        return Rally::all();
+    }
 }

@@ -29,3 +29,5 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('perfil', [ 'as' => 'perfil', 'uses' => 'UserController@showPerfil']);
 Route::post('perfil/actualizar', [ 'as' => 'perfil/actualizar', 'uses' => 'UserController@actualizarPerfil']);
+
+Route::get('listaRallies', [ 'as' => 'listaRallies', 'uses' => 'RallyController@showListaRallies']);
