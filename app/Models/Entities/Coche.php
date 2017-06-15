@@ -9,10 +9,9 @@
 namespace app\Models\Entities;
 use Illuminate\Database\Eloquent\Model;
 
-class Rally extends Model
+class Coche extends Model
 {
-    protected $table = 'rally';
-    protected $primaryKey = 'codRally';
-    public $incrementing = false;
+    protected $table = 'coche';
+    protected $primaryKey = 'codCoche';
     public $timestamps = false;
 }

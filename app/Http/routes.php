@@ -31,3 +31,8 @@ Route::get('perfil', [ 'as' => 'perfil', 'uses' => 'UserController@showPerfil'])
 Route::post('perfil/actualizar', [ 'as' => 'perfil/actualizar', 'uses' => 'UserController@actualizarPerfil']);
 
 Route::get('listaRallies', [ 'as' => 'listaRallies', 'uses' => 'RallyController@showListaRallies']);
+Route::get('editaRally/{codRally}', 'RallyController@editaRally');
+Route::post('saveCambiosRally', [ 'as' => 'saveCambiosRally', 'uses' => 'RallyController@saveCambiosRally']);
+//Route::get('', [ 'as' => 'editaRally/{$codRally}', 'uses' => 'RallyController@editaRally']);
+Route::get('listaPilotos', [ 'as' => 'listaPilotos', 'uses' => 'PilotoController@showListaPilotos']);
+Route::get('listaCoches', [ 'as' => 'listaCoches', 'uses' => 'CocheController@showListaCoches']);

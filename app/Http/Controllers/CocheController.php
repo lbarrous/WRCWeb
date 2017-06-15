@@ -9,16 +9,15 @@
 namespace app\Http\Controllers;
 
 
-use App\Models\Repositories\RallyRepository;
+use App\Models\Repositories\CocheRepository;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
 
-class RallyController extends Controller
+class CocheController extends Controller
 {
 
-    public function __construct(RallyRepository $rallyRepository)
+    public function __construct(CocheRepository $cocheRepository)
     {
-        $this->repoRally = $rallyRepository;
+        $this->repoCoche = $cocheRepository;
     }
 
     public function inicializaOpcionesDatatable() {
@@ -51,16 +50,7 @@ class RallyController extends Controller
         return $opcionesDatatable;
     }
 
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'nombre' => 'required|max:255',
-            'pais' => 'required|max:255',
-            'fecha' => 'required|max:255',
-        ]);
-    }
-
-    public function showListaRallies()
+    public function showListaCoches()
     {
         $opcionesDatatable = $this->inicializaOpcionesDatatable();
 
@@ -71,36 +61,9 @@ class RallyController extends Controller
 
         $datos["opcionesDatatable"] = json_encode($opcionesDatatable);
 
-        $datos["rallies"] = $this->repoRally->getAllRallies();
+        $datos["coches"] = $this->repoCoche->getAllCoches();
 
         return view('listaRallies')->with('datos', $datos);
-    }
-
-    public function editaRally($codRally)
-    {
-        $rally = $this->repoRally->getRallyByCod($codRally);
-
-        $datos["rally"] = $rally;
-
-        return view('editaRally')->with('datos', $datos);
-    }
-
-    public function saveCambiosRally()
-    {
-
-        $codRally = Input::get('codRally');
-
-        $datos = array(
-            'nombre' => Input::get('nombre'),
-            'pais' => Input::get('pais'),
-            'fecha' => Input::get('fecha'),
-        );
-
-        $this->repoRally->updatetRallyByCod($codRally, $datos);
-
-        $datos["rally"] = $this->repoRally->getRallyByCod($codRally);
-
-        return redirect("/editaRally/".$codRally);
     }
 
 
