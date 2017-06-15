@@ -20,7 +20,16 @@ class RallyRepository
         return Rally::where('codRally', $codRally)->get();
     }
 
-    public function updatetRallyByCod($codRally, $datos) {
+    public function createRally() {
+        $rally = new Rally;
+        $max_cod = Rally::whereRaw('codRally = (select max(`codRally`) from rally)')->first();
+        $nuevoCod = "R".sprintf("%03s", intval(substr($max_cod->codRally, 1))+1);
+        $rally->codRally = $nuevoCod;
+        $rally->save();
+        return $rally;
+    }
+
+    public function updateRallyByCod($codRally, $datos) {
 
         $rally = Rally::where('codRally', $codRally)->first();
 

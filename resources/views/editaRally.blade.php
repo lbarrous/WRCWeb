@@ -15,7 +15,9 @@
     <!-- Bootstrap Date-Picker Plugin -->
     <script type="text/javascript" src="{{ url('/assets/js/bootstrap-datepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('/assets/js/countries.js') }}"></script>
+    <script type="text/javascript" src="{{ url('/assets/js/bootstrap-dialog.js') }}"></script>
     <link rel="stylesheet" href="{{ url('/assets/css/bootstrap-datepicker3.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url('/assets/css/bootstrap-dialog.css') }}"/>
 
     <script>
         $(document).ready(function(){
@@ -59,8 +61,8 @@
                     <div class="panel panel-default">
 
                         <div class="panel-body">
-                            {!! Form::open(['route' => 'saveCambiosRally', 'class' => 'form']) !!}
-                                    <input name="codRally" style="display: none;" value="{{$datos["rally"][0]->codRally}}">
+                            {!! Form::open(['id' => 'formRally', 'route' => 'saveCambiosRally', 'class' => 'form']) !!}
+                                    <input id="codRally" name="codRally" style="display: none;" value="<?php isset($datos["rally"][0]->codRally) ? $datos["rally"][0]->codRally : ''?>">
                                     <div class="form-group">
                                         <label>Nombre del Rally</label>
                                         {!! Form::input('text', 'nombre', isset($datos["rally"]) ? $datos["rally"][0]->nombre : '', ['class'=> 'form-control']) !!}
@@ -82,7 +84,9 @@
                                     </div>
 
                             <div class="row" style="margin: auto;">
-                                {!! Form::submit('Enviar',['class' => 'btn btn-primary']) !!}
+                                <div class="cold-md-6"><input onclick="postCambiosRally();" class="btn btn-info" type="button" value="Enviar"></div>
+
+                                <div class="cold-md-6"><input style="background-color: #D01439" onclick="window.location.href = '{{url("listaRallies")}}'" class="btn btn-info" type="button" value="Atras"></div>
                             </div>
                             {!! Form::close() !!}
                         </div>

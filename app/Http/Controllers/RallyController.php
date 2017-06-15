@@ -25,19 +25,19 @@ class RallyController extends Controller
 
         $opcionesDatatable = array( "responsive" => "true",
             "language" => array(
-                "search" =>  "Búsqueda",
+                "search" =>  "Busqueda",
                 "loadingRecords"=> "Cargando...",
                 "lengthMenu" => "Mostrando _MENU_",
                 "zeroRecords"=> "Sin registros",
                 "processing" => "Procesandp",
-                "info"=> "Mostrando página _PAGE_ de _PAGES_",
+                "info"=> "Mostrando pagina _PAGE_ de _PAGES_",
                 "infoEmpty"=> "Sin Registros",
                 "infoFiltered"=> "(Resultado filtrado de un total de _MAX_ registros)",
                 "paginate" => array (
                     "first"=> "Primera",
                     "previous"=> "<strong><</strong>",
                     "next"=> "<strong>></strong>",
-                    "last"=> "Última",
+                    "last"=> "Ultima",
                 )
             ),
             "aoColumns"	=> array(//Poblar en cada respectivo metodo de tabla)
@@ -67,6 +67,9 @@ class RallyController extends Controller
         $opcionesDatatable["aoColumns"] = array(
             array("bVisible" => false), //Aqui siempre el ID (PK)
             array(null),
+            array(null),
+            array(null),
+            array(null),
         );
 
         $datos["opcionesDatatable"] = json_encode($opcionesDatatable);
@@ -74,6 +77,11 @@ class RallyController extends Controller
         $datos["rallies"] = $this->repoRally->getAllRallies();
 
         return view('listaRallies')->with('datos', $datos);
+    }
+
+    function nuevoRally()
+    {
+        return view('editaRally');
     }
 
     public function editaRally($codRally)
@@ -87,8 +95,14 @@ class RallyController extends Controller
 
     public function saveCambiosRally()
     {
-
         $codRally = Input::get('codRally');
+
+        if($codRally == "") {
+            $rally = $this->repoRally->createRally();
+        }
+        else {
+            $rally = $this->repoRally->getRallyByCod($codRally);
+        }
 
         $datos = array(
             'nombre' => Input::get('nombre'),
@@ -96,11 +110,11 @@ class RallyController extends Controller
             'fecha' => Input::get('fecha'),
         );
 
-        $this->repoRally->updatetRallyByCod($codRally, $datos);
+        $this->repoRally->updateRallyByCod($rally->codRally, $datos);
 
-        $datos["rally"] = $this->repoRally->getRallyByCod($codRally);
+        $datos["rally"] = $this->repoRally->getRallyByCod($rally->codRally);
 
-        return redirect("/editaRally/".$codRally);
+        return json_encode(array("result" => "ok", "codRally" => $rally->codRally));
     }
 
 

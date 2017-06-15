@@ -29,3 +29,7 @@
 <script type='text/javascript' src={{url('assets/js/bootstrap.min.js')}}></script>
 <script type='text/javascript' src={{url('assets/js/main.js')}}></script>
 
+<script>
+    var baseUrl = "{{ url('/') }}";
+</script>
+

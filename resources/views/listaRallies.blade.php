@@ -2,9 +2,121 @@
 /**
  * Created by PhpStorm.
  * User: Alvaro
- * Date: 02/06/2017
- * Time: 19:42
+ * Date: 23/05/2017
+ * Time: 1:38
  */
+
 ?>
 
-{{var_dump($datos)}}
+@extends('layouts.mainLayout')
+
+@section('head-plus')
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="{{ url('/assets/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url('/assets/js/countries.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="{{ url('/assets/css/bootstrap-datepicker3.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+
+    <script>
+
+        $(document).ready(function(){
+            var opcionesdatatable = <?php echo $datos['opcionesDatatable']; ?>;
+            var dataTableGlobalObj = $('#pretabla').DataTable(opcionesdatatable);
+        })
+    </script>
+@endsection
+
+@section('contenido')
+    <div id="main-wrapper">
+
+        <div id="main" class="container">
+            <h2 class="major" style="margin: 0;"><span>Lista de Rallies</span></h2>
+            <br>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4">
+                    @if(isset($msgsErroresValidator))
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                                @foreach($msgsErroresValidator as $item)
+                                    <li style="text-align: center;"> {{ $item }} </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12">
+
+                    {{ Form::open(array('url' => 'nuevoRally')) }}
+                    <button style='float: right;' type="submit" id="add_pantalla_login" class="btn btn-md btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nuevo Rally</button>
+                    {{ Form::close() }}
+
+                </div>
+
+                <br/>
+
+                <br>
+            </div>
+
+            <div class="row">
+            <div class="col-md-12">
+                @if (isset($datos['rallies']) && count($datos['rallies']) > 0 )
+                    <table id="pretabla" class="display responsive dtr-inline" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>#loc</th>
+                            <th>Nombre</th>
+                            <th>Pais</th>
+                            <th>Fecha</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        @foreach ($datos['rallies'] as $rally)
+
+
+                            <tr id="rally_{{$rally->codRally}}">
+
+                                <td>{{$rally->codRally}}</td>
+                                <td>{{$rally->nombre}}</td>
+                                <td>{{$rally->pais}}</td>
+                                <td>{{$rally->fecha}}</td>
+
+                                <td width="15%" style="text-align: center;">
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Opciones
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li style="cursor: pointer; font-size: 1.20em;"><a href="{{url("/editaRally/".$rally->codRally)}}"><i style='color: black;' class="icono_editar fa fa-pencil lapiz_plantilla" aria-hidden="true"></i> Editar Rally</a></li>
+                                            <li style="cursor: pointer; font-size: 1.20em;"><a onclick="borrarRally({{$rally->codRally}});"><i style='color: black;' class="icono_eliminar fa fa-trash papelera_plantilla" aria-hidden="true"></i> Eliminar Rally</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                @else
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="contenedor_alertas" class="panel panel-default">
+                                <br/>
+                                <div class="alert alert-warning" role="alert">No hay Rallies almacenados</div>
+                            </div>
+                        </div>
+                    </div>
+
+                @endif
+            </div>
+            </div>
+        </div>
+    </div>
+
+@endsection

@@ -94,3 +94,49 @@
 	});
 
 })(jQuery);
+
+function postCambiosRally() {
+
+    var data = $( "#formRally" ).serialize();
+    var url = baseUrl + "/saveCambiosRally";
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: data,
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.msg
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_INFO,
+                    title: "Cambios realizados correctamente",
+                    message: "El Rally ha sido actualizado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                            window.localtion.href = baseUrl + "/editaRally/"+ data.codRally;
+                        }
+                    }]
+                });
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}

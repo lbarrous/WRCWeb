@@ -13,6 +13,7 @@ class Rally extends Model
 {
     protected $table = 'rally';
     protected $primaryKey = 'codRally';
+    protected $fillable = ['nombre', 'pais', 'fecha'];
     public $incrementing = false;
     public $timestamps = false;
 }
