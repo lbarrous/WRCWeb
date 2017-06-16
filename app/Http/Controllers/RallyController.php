@@ -9,9 +9,12 @@
 namespace app\Http\Controllers;
 
 
+//use App\Http\Requests\Request;
 use App\Models\Repositories\RallyRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
+use Validator;
 
 class RallyController extends Controller
 {
@@ -93,29 +96,39 @@ class RallyController extends Controller
         return view('editaRally')->with('datos', $datos);
     }
 
-    public function saveCambiosRally()
+    public function saveCambiosRally(Request $request)
     {
-        $codRally = Input::get('codRally');
+        $validator = $this->validator($request->all());
 
-        if($codRally == "") {
-            $rally = $this->repoRally->createRally();
+        if ($validator->fails()) {
+            $msgerrors = $validator->messages()->all();
+            $datos["msgsErroresValidator"] = $msgerrors;
+            return \Response::json( array('err' => true, "msg" =>$msgerrors[0]) );
         }
         else {
-            $rally = $this->repoRally->getRallyByCod($codRally);
+            $codRally = Input::get('codRally');
+
+            if($codRally == "") {
+                $rally = $this->repoRally->createRally();
+                $nuevoRally = 1;
+            }
+            else {
+                $rally = $this->repoRally->getRallyByCod($codRally);
+                $nuevoRally = 0;
+            }
+
+            $datos = array(
+                'nombre' => Input::get('nombre'),
+                'pais' => Input::get('pais'),
+                'fecha' => Input::get('fecha'),
+            );
+
+            $this->repoRally->updateRallyByCod($rally->codRally, $datos);
+
+            $datos["rally"] = $this->repoRally->getRallyByCod($rally->codRally);
+
+            return json_encode(array("result" => "ok", "codRally" => $rally->codRally, "nuevoRally" => $nuevoRally));
         }
-
-        $datos = array(
-            'nombre' => Input::get('nombre'),
-            'pais' => Input::get('pais'),
-            'fecha' => Input::get('fecha'),
-        );
-
-        $this->repoRally->updateRallyByCod($rally->codRally, $datos);
-
-        $datos["rally"] = $this->repoRally->getRallyByCod($rally->codRally);
-
-        return json_encode(array("result" => "ok", "codRally" => $rally->codRally));
     }
-
 
 }

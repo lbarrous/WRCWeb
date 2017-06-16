@@ -62,10 +62,11 @@
 
                         <div class="panel-body">
                             {!! Form::open(['id' => 'formRally', 'route' => 'saveCambiosRally', 'class' => 'form']) !!}
-                                    <input id="codRally" name="codRally" style="display: none;" value="<?php isset($datos["rally"][0]->codRally) ? $datos["rally"][0]->codRally : ''?>">
+                            <?php isset($datos["rally"]->codRally) ? $codRally = $datos["rally"]->codRally : $codRally = ''?>
+                                    <input id="codRally" name="codRally" style="display: none;" value="{{$codRally}}">
                                     <div class="form-group">
                                         <label>Nombre del Rally</label>
-                                        {!! Form::input('text', 'nombre', isset($datos["rally"]) ? $datos["rally"][0]->nombre : '', ['class'=> 'form-control']) !!}
+                                        {!! Form::input('text', 'nombre', isset($datos["rally"]) ? $datos["rally"]->nombre : '', ['class'=> 'form-control']) !!}
                                     </div>
 
                                     <!--<div class="form-group">
@@ -75,12 +76,12 @@
 
                                     <div class="form-group">
                                         <label>Pais</label>
-                                        {!! Form::input('text', 'pais', isset($datos["rally"]) ? $datos["rally"][0]->pais : '', ['class'=> 'form-control']) !!}
+                                        {!! Form::input('text', 'pais', isset($datos["rally"]) ? $datos["rally"]->pais : '', ['class'=> 'form-control']) !!}
                                     </div>
 
                                     <div class="form-group">
                                         <label>Fecha del evento</label>
-                                        <input class="form-control datepicker" id="fecha" name="fecha" type="text" autocomplete="off" value="{{isset($datos['rally'][0]->fecha)?date('d-m-Y', strtotime($datos['rally'][0]->fecha)):''}}"/>
+                                        <input class="form-control datepicker" id="fecha" name="fecha" type="text" autocomplete="off" value="{{isset($datos['rally']->fecha)?date('d-m-Y', strtotime($datos['rally']->fecha)):''}}"/>
                                     </div>
 
                             <div class="row" style="margin: auto;">

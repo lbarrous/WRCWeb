@@ -17,7 +17,7 @@ class RallyRepository
     }
 
     public function getRallyByCod($codRally) {
-        return Rally::where('codRally', $codRally)->get();
+        return Rally::where('codRally', $codRally)->first();
     }
 
     public function createRally() {
@@ -25,6 +25,7 @@ class RallyRepository
         $max_cod = Rally::whereRaw('codRally = (select max(`codRally`) from rally)')->first();
         $nuevoCod = "R".sprintf("%03s", intval(substr($max_cod->codRally, 1))+1);
         $rally->codRally = $nuevoCod;
+        $rally->nombre = mt_rand();
         $rally->save();
         return $rally;
     }
@@ -33,7 +34,8 @@ class RallyRepository
 
         $rally = Rally::where('codRally', $codRally)->first();
 
-        $rally->nombre = $datos["nombre"];
+        if($rally->nombre != $datos["nombre"])
+            $rally->nombre = $datos["nombre"];
         $rally->pais = $datos["pais"];
         $date = str_replace('/', '-', $datos["fecha"]);
         $date = date('Y-m-d', strtotime($date));

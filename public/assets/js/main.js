@@ -117,6 +117,20 @@ function postCambiosRally() {
                     message: data.msg
                 });
             }
+            else if(data.nuevoRally == 1) {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_PRIMARY,
+                    title: "Cambios realizados correctamente",
+                    message: "El Rally ha sido actualizado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                            window.location.href = baseUrl + "/editaRally/"+ data.codRally;
+                        }
+                    }]
+                });
+			}
             else {
                 BootstrapDialog.show({
                     type: BootstrapDialog.TYPE_INFO,
@@ -126,7 +140,6 @@ function postCambiosRally() {
                         label: 'Cerrar',
                         action: function(dialogItself){
                             dialogItself.close();
-                            window.localtion.href = baseUrl + "/editaRally/"+ data.codRally;
                         }
                     }]
                 });
@@ -134,6 +147,18 @@ function postCambiosRally() {
 
         },
         error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
             console.log("err...");
             console.log(error);
             console.log(errorThrown);
