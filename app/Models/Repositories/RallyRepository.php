@@ -43,4 +43,18 @@ class RallyRepository
 
         return $rally->save();
     }
+
+    public function getTramosByCodRally($codRally, $datos) {
+
+        $rally = Rally::where('codRally', $codRally)->first();
+
+        if($rally->nombre != $datos["nombre"])
+            $rally->nombre = $datos["nombre"];
+        $rally->pais = $datos["pais"];
+        $date = str_replace('/', '-', $datos["fecha"]);
+        $date = date('Y-m-d', strtotime($date));
+        $rally->fecha = $date;
+
+        return $rally->save();
+    }
 }

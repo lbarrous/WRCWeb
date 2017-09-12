@@ -33,7 +33,6 @@
 
         <div id="main" class="container">
             <h2 class="major" style="margin: 0;"><span>Lista de Rallies</span></h2>
-            <br>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-4">
                     @if(isset($msgsErroresValidator))
@@ -57,9 +56,6 @@
 
                 </div>
 
-                <br/>
-
-                <br>
             </div>
 
             <div class="row">
