@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="{{ url('/assets/css/bootstrap-datepicker3.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
 
+    <script type="text/javascript" src="{{ url('/assets/js/bootstrap-dialog.js') }}"></script>
+    <link rel="stylesheet" href="{{ url('/assets/css/bootstrap-dialog.css') }}"/>
+
     <script>
 
         $(document).ready(function(){
@@ -64,10 +67,11 @@
                     <table id="pretabla" class="display responsive dtr-inline" cellspacing="0" width="100%">
                         <thead>
                         <tr>
-                            <th>#loc</th>
+                            <th>codRally</th>
                             <th>Nombre</th>
                             <th>Pais</th>
                             <th>Fecha</th>
+                            <th>Tramos</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -83,6 +87,7 @@
                                 <td>{{$rally->nombre}}</td>
                                 <td>{{$rally->pais}}</td>
                                 <td>{{$rally->fecha}}</td>
+                                <td><a onclick="verTramos('{{$rally->codRally}}');">Ver Tramos</a></td>
 
                                 <td width="15%" style="text-align: center;">
                                     <div class="dropdown">

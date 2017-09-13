@@ -165,3 +165,143 @@ function postCambiosRally() {
         }
     });
 }
+
+function verTramos(codRally) {
+
+    var url = baseUrl + "/verTramos/"+codRally;
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType:"json",
+        success: function (data) {
+
+            console.log(data);
+
+            $('<div></div>').load('remote.html')
+
+            var tramos = '<table class="table table-striped">';
+            tramos += '<thead>';
+            tramos += '<tr>';
+            tramos += '<th>codTramo</th>';
+            tramos += '<th>Kilometros totales</th>';
+            tramos += '<th>Dificultad</th>';
+            tramos += '</tr>';
+            tramos += '</thead>';
+            tramos += '<tbody>';
+            $.each(data.tramos, function( index, value ) {
+                tramos += '<tr>';
+                tramos += '<td>'+value.codTramo+'</td>';
+                tramos += '<td>'+value.totalKms+'</td>';
+                tramos += '<td>'+value.dificultad+'</td>';
+                tramos += '</tr>';
+            });
+            tramos += '</tbody>';
+            tramos += '</table>';
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.msg
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_INFO,
+                    title: "Tramos del Rally "+data.codRally,
+                    message: tramos,
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                        }
+                    }]
+                });
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function addTramo() {
+
+    var data = $( "#formRally" ).serialize();
+    var url = baseUrl + "/addTramo";
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: data,
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.msg
+                });
+            }
+            else {
+                $('#tramos > tbody:last-child').append(
+                    '<tr>'
+                    +'<td>'+data.codTramo+'</td>'
+                    +'<td>'+data.totalKms+'</td>'
+                	+'<td>'+data.dificultad+'</td>'
+                    +'</tr>');
+
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_INFO,
+                    title: "Cambios realizados correctamente",
+                    message: "El Rally ha sido actualizado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                        }
+                    }]
+                });
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}

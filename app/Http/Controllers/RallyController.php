@@ -90,10 +90,36 @@ class RallyController extends Controller
     public function editaRally($codRally)
     {
         $rally = $this->repoRally->getRallyByCod($codRally);
+        $tramos = $this->repoRally->getTramosByCodRally($codRally);
 
         $datos["rally"] = $rally;
+        $datos["tramos"] = $tramos;
 
         return view('editaRally')->with('datos', $datos);
+    }
+
+    public function verTramos($codRally)
+    {
+        $tramos = $this->repoRally->getTramosByCodRally($codRally);
+
+        $datos["tramos"] = $tramos;
+        $datos["codRally"] = $codRally;
+
+        return json_encode($datos);
+    }
+
+    public function addTramo(Request $request)
+    {
+        $codRally = Input::get('codRally');
+
+        $datos = array(
+            'dificultad' => Input::get('dificultad'),
+            'totalKms' => Input::get('totalKms'),
+        );
+
+        $tramo = $this->repoRally->addTramoByCodRally($codRally, $datos);
+
+        return json_encode($tramo);
     }
 
     public function saveCambiosRally(Request $request)

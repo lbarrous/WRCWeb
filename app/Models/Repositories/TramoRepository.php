@@ -12,6 +12,7 @@ use App\Models\Entities\Tramo;
 
 class TramoRepository
 {
-    public function getTramosByCodRally() {
+    public function getTramosByCodRally($codRally) {
+        return Tramo::where('codRally', $codRally)->get();
     }
 }

@@ -83,6 +83,51 @@
                                         <label>Fecha del evento</label>
                                         <input class="form-control datepicker" id="fecha" name="fecha" type="text" autocomplete="off" value="{{isset($datos['rally']->fecha)?date('d-m-Y', strtotime($datos['rally']->fecha)):''}}"/>
                                     </div>
+                            <br>
+                                    <div class="form-group">
+                                        <label>Nuevo tramo</label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input class="form-control datepicker" id="totalKms" name="totalKms" type="text" autocomplete="off" placeholder="Kilometros totales"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="form-control" id="dificultad" name="dificultad">
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <a onclick="addTramo();">Añadir tramo</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Tramos</label>
+                                        <table id="tramos" class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th width="25%">codTramo</th>
+                                                <th width="25%">Kilometros totales</th>
+                                                <th width="25%">Dificultad</th>
+                                                <th width="25%"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($datos["tramos"] as $tramo)
+                                                <tr id="{{$tramo->codTramo}}">
+                                                    <td>{{$tramo->codTramo}}</td>
+                                                    <td>{{$tramo->totalKms}}</td>
+                                                    <td>{{$tramo->dificultad}}</td>
+                                                    <td>{{$tramo->dificultad}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+
 
                             <div class="row" style="margin: auto;">
                                 <div class="cold-md-6"><input onclick="postCambiosRally();" class="btn btn-info" type="button" value="Enviar"></div>

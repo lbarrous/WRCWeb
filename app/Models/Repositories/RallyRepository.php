@@ -8,10 +8,12 @@
 
 namespace app\Models\Repositories;
 use App\Models\Entities\Rally;
+use App\Models\Entities\Tramo;
 
 
 class RallyRepository
 {
+
     public function getAllRallies() {
         return Rally::all();
     }
@@ -44,17 +46,43 @@ class RallyRepository
         return $rally->save();
     }
 
-    public function getTramosByCodRally($codRally, $datos) {
+    public function getTramosByCodRally($codRally) {
 
-        $rally = Rally::where('codRally', $codRally)->first();
+        $tramos = Tramo::where('codRally', $codRally)->get();
 
-        if($rally->nombre != $datos["nombre"])
-            $rally->nombre = $datos["nombre"];
-        $rally->pais = $datos["pais"];
-        $date = str_replace('/', '-', $datos["fecha"]);
-        $date = date('Y-m-d', strtotime($date));
-        $rally->fecha = $date;
+        return $tramos;
+    }
 
-        return $rally->save();
+    public function addTramoByCodRally($codRally, $datos) {
+
+        if(Tramo::where('codRally', $codRally)->count() > 0) {
+            $ultimo_tramo = Tramo::where('codRally', $codRally)->orderBy('codTramo', 'DESC')->first();
+
+            $ultimo_tramo = intval(substr($ultimo_tramo->codTramo,1,1))+1;
+            $rally = 'R'.intval(substr($codRally, 1));
+            $codTramo = "T".$ultimo_tramo."-".$rally;
+
+            $tramo = new Tramo;
+            $tramo->totalKms = $datos["totalKms"];
+            $tramo->dificultad = $datos["dificultad"];
+            $tramo->codTramo = $codTramo;
+            $tramo->codRally = $codRally;
+            $tramo->save();
+
+            return $tramo;
+        }
+        else {
+            $rally = 'R'.intval(substr($codRally, 1));
+            $codTramo = "T1-".$rally;
+
+            $tramo = new Tramo;
+            $tramo->totalKms = $datos["totalKms"];
+            $tramo->dificultad = $datos["dificultad"];
+            $tramo->codTramo = $codTramo;
+            $tramo->codRally = $codRally;
+            $tramo->save();
+
+            return $tramo;
+        }
     }
 }
