@@ -10,6 +10,7 @@ namespace app\Http\Controllers;
 
 
 //use App\Http\Requests\Request;
+use App\Models\Repositories\CorreRepository;
 use App\Models\Repositories\RallyRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -19,9 +20,10 @@ use Validator;
 class RallyController extends Controller
 {
 
-    public function __construct(RallyRepository $rallyRepository)
+    public function __construct(RallyRepository $rallyRepository, CorreRepository $correRepository)
     {
         $this->repoRally = $rallyRepository;
+        $this->repoCorre = $correRepository;
     }
 
     public function inicializaOpcionesDatatable() {
@@ -84,7 +86,7 @@ class RallyController extends Controller
 
     function nuevoRally()
     {
-        return view('editaRally');
+        return view('editaRally')->with("nuevo_rally", 1);
     }
 
     public function editaRally($codRally)
@@ -120,6 +122,32 @@ class RallyController extends Controller
         $tramo = $this->repoRally->addTramoByCodRally($codRally, $datos);
 
         return json_encode($tramo);
+    }
+
+    public function eliminarTramo(Request $request)
+    {
+        $codTramo = Input::get('codTramo');
+
+        if($this->repoCorre->dimeSiTramoEsRecorrido($codTramo)) {
+            return json_encode(["err" => "El tramo no puede ser borrado por que ha sido recorrido por uno o mas pilotos."]);
+        }
+        else {
+            $tramo = $this->repoRally->eliminarTramo($codTramo);
+            return json_encode($tramo);
+        }
+    }
+
+    public function eliminarRally(Request $request)
+    {
+        $codRally = Input::get('codRally');
+
+        if(!$this->repoRally->dimeSiRallyTieneParticipacion($codRally)) {
+            return json_encode(["err" => "Este rally no puede ser borrado por que ha sido recorrido por uno o mas pilotos."]);
+        }
+        else {
+            $rally = $this->repoRally->eliminarRally($codRally);
+            return json_encode($rally);
+        }
     }
 
     public function saveCambiosRally(Request $request)

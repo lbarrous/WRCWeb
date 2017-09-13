@@ -60,7 +60,7 @@
                 </div>
 
             </div>
-
+            {{ csrf_field() }}
             <div class="row">
             <div class="col-md-12">
                 @if (isset($datos['rallies']) && count($datos['rallies']) > 0 )
@@ -81,7 +81,7 @@
                         @foreach ($datos['rallies'] as $rally)
 
 
-                            <tr id="rally_{{$rally->codRally}}">
+                            <tr id="{{$rally->codRally}}">
 
                                 <td>{{$rally->codRally}}</td>
                                 <td>{{$rally->nombre}}</td>
@@ -95,7 +95,7 @@
                                             <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             <li style="cursor: pointer; font-size: 1.20em;"><a href="{{url("/editaRally/".$rally->codRally)}}"><i style='color: black;' class="icono_editar fa fa-pencil lapiz_plantilla" aria-hidden="true"></i> Editar Rally</a></li>
-                                            <li style="cursor: pointer; font-size: 1.20em;"><a onclick="borrarRally({{$rally->codRally}});"><i style='color: black;' class="icono_eliminar fa fa-trash papelera_plantilla" aria-hidden="true"></i> Eliminar Rally</a></li>
+                                            <li style="cursor: pointer; font-size: 1.20em;"><a onclick="eliminarRally('{{$rally->codRally}}');"><i style='color: black;' class="icono_eliminar fa fa-trash papelera_plantilla" aria-hidden="true"></i> Eliminar Rally</a></li>
                                         </ul>
                                     </div>
                                 </td>

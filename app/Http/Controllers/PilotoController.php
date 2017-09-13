@@ -63,7 +63,7 @@ class PilotoController extends Controller
 
         $datos["pilotos"] = $this->repoPiloto->getAllPilotos();
 
-        return view('listaRallies')->with('datos', $datos);
+        return view('listaPilotos')->with('datos', $datos);
     }
 
 

@@ -55,7 +55,7 @@
                     @endif
                 </div>
             </div>
-
+            {{ csrf_field() }}
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="panel panel-default">
@@ -84,7 +84,7 @@
                                         <input class="form-control datepicker" id="fecha" name="fecha" type="text" autocomplete="off" value="{{isset($datos['rally']->fecha)?date('d-m-Y', strtotime($datos['rally']->fecha)):''}}"/>
                                     </div>
                             <br>
-                                    <div class="form-group">
+                                    <div class="form-group" <?php if(isset($nuevo_rally)) echo 'style="display:none;"'?>>
                                         <label>Nuevo tramo</label>
                                         <div class="row">
                                             <div class="col-md-4">
@@ -98,13 +98,13 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <a onclick="addTramo();">Añadir tramo</a>
+                                                <button onclick="addTramo();" class="btn btn-primary" type="button">Añadir tramo</button>
                                             </div>
                                         </div>
                                     </div>
 
 
-                                    <div class="form-group">
+                                    <div class="form-group"  <?php if(isset($nuevo_rally)) echo 'style="display:none;"'?>>
                                         <label>Tramos</label>
                                         <table id="tramos" class="table table-striped">
                                             <thead>
@@ -116,14 +116,16 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            @if(isset($datos["tramos"]))
                                             @foreach($datos["tramos"] as $tramo)
                                                 <tr id="{{$tramo->codTramo}}">
                                                     <td>{{$tramo->codTramo}}</td>
                                                     <td>{{$tramo->totalKms}}</td>
                                                     <td>{{$tramo->dificultad}}</td>
-                                                    <td>{{$tramo->dificultad}}</td>
+                                                    <td><button onclick="eliminarTramo('{{$tramo->codTramo}}');" class="btn btn-danger" type="button">Eliminar tramo</button></td>
                                                 </tr>
                                             @endforeach
+                                            @endif
                                             </tbody>
                                         </table>
                                     </div>

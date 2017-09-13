@@ -265,14 +265,15 @@ function addTramo() {
                 });
             }
             else {
-                $('#tramos > tbody:last-child').append(
-                    '<tr>'
+                $('#tramos > tbody:last-child').hide().append(
+                    '<tr id="'+data.codTramo+'">'
                     +'<td>'+data.codTramo+'</td>'
                     +'<td>'+data.totalKms+'</td>'
                 	+'<td>'+data.dificultad+'</td>'
-                    +'</tr>');
+                    +'<td><button onclick="eliminarTramo(\''+data.codTramo+'\');" class="btn btn-danger" type="button">Eliminar tramo</button></td>'
+                    +'</tr>').fadeIn();
 
-                BootstrapDialog.show({
+                /*BootstrapDialog.show({
                     type: BootstrapDialog.TYPE_INFO,
                     title: "Cambios realizados correctamente",
                     message: "El Rally ha sido actualizado",
@@ -282,7 +283,119 @@ function addTramo() {
                             dialogItself.close();
                         }
                     }]
+                });*/
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function eliminarTramo(codTramo) {
+
+    var url = baseUrl + "/eliminarTramo";
+    var _token = $('input[name="_token"]').val();
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: {"codTramo":codTramo, _token : _token},
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.err
                 });
+            }
+            else {
+                $('#'+data).fadeOut(300, function() { $(this).remove();});
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function eliminarRally(codRally) {
+
+    var url = baseUrl + "/eliminarRally";
+    var _token = $('input[name="_token"]').val();
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: {"codRally":codRally, _token : _token},
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.err
+                });
+            }
+            else {
+                BootstrapDialog.confirm({
+                    title: 'Borrar Rally',
+                    message: 'Vas a borrar este Rally, ¿Estas seguro?',
+                    type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'Cancelar', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Borrar!', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-danger', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function(result) {
+                        // result will be true if button was click, while it will be false if users close the dialog directly.
+                        if(result) {
+                            $('#'+data).fadeOut(300, function() { $(this).remove();});
+                        }else {
+                            return false;
+                        }
+                    }
+                });
+
             }
 
         },

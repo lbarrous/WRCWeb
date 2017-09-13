@@ -25,7 +25,7 @@
 <nav id="nav">
     <ul>
         <li class="{{$class_home_activa}}"><a href="{{url("/home")}}">Home</a></li>
-        <li class=""><a href="{{url("/home")}}">Rallys</a></li>
+        <li class=""><a href="{{url("/listaRallies")}}">Rallys</a></li>
         <li class=""><a href="{{url("/home")}}">Pilotos</a></li>
         <li class=""><a href="{{url("/home")}}">Coches</a></li>
         <li class=""><a href="{{url("/home")}}">Resultados</a></li>

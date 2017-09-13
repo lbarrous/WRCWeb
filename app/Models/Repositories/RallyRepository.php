@@ -85,4 +85,31 @@ class RallyRepository
             return $tramo;
         }
     }
+
+    public function eliminarTramo($codTramo) {
+
+        $tramo = Tramo::where('codTramo', $codTramo)->delete();
+
+        return $codTramo;
+    }
+
+    public function eliminarRally($codRally) {
+
+        $rally = Rally::where('codRally', $codRally)->delete();
+
+        return $codRally;
+    }
+
+    public function dimeSiRallyTieneParticipacion($codRally) {
+
+            $rally_ocupado = \DB::select("select * from rally r
+            inner join tramo t
+            on t.codRally = r.codRally
+            inner join corre c
+            on c.codTramo = t.codTramo
+            where t.codTramo in (select codTramo from tramo where codRally = '".$codRally."')
+            ");
+
+            return empty($rally_ocupado);
+    }
 }
