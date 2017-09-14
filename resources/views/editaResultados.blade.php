@@ -25,7 +25,7 @@
     <div id="main-wrapper">
 
         <div id="main" class="container">
-            <h2 class="major" style="margin: 0;"><span><?php if(isset($nuevo_coche)) echo 'Nuevo Coche'; else echo 'Edición de Coche';?></span></h2>
+            <h2 class="major" style="margin: 0;"><span>Nuevo Resultado</span></h2>
             <br>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-4">
@@ -46,30 +46,36 @@
                     <div class="panel panel-default">
 
                         <div class="panel-body">
-                            {!! Form::open(['id' => 'formCoche', 'route' => 'saveCambiosCoche', 'class' => 'form']) !!}
-                            <?php isset($datos["coche"]->codCoche) ? $codCoche = $datos["coche"]->codCoche : $codCoche = ''?>
-                            <input id="codCoche" name="codCoche" style="display: none;" value="{{$codCoche}}">
+                            {!! Form::open(['id' => 'formResultado', 'route' => 'saveCambiosResultados', 'class' => 'form']) !!}
                             <div class="form-group">
-                                <label>Marca del coche</label>
-                                {!! Form::input('text', 'marca', isset($datos["coche"]) ? $datos["coche"]->marca : '', ['class'=> 'form-control']) !!}
+                                <label>Rally</label>
+                                <select class="form-control" id="rally" name="rally">
+                                    @foreach($datos["rallies"] as $rally)
+                                        <option value="{{$rally->codRally}}">{{$rally->nombre}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Piloto</label>
+                                <select class="form-control" id="piloto" name="piloto">
+                                    @foreach($datos["pilotos"] as $piloto)
+                                        <option value="{{$piloto->codPiloto}}">{{$piloto->nombreP}}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
 
                             <div class="form-group">
-                                <label>Modelo del coche</label>
-                                {!! Form::input('text', 'modelo', isset($datos["coche"]) ? $datos["coche"]->modelo : '', ['class'=> 'form-control']) !!}
-                            </div>
-
-                            <div class="form-group">
-                                <label>Cilindrada</label>
-                                {!! Form::input('text', 'cilindrada', isset($datos["coche"]) ? $datos["coche"]->cilindrada : '', ['class'=> 'form-control']) !!}
+                                <label>Posicion</label>
+                                {!! Form::input('text', 'posicion', '', ['class'=> 'form-control']) !!}
                             </div>
 
 
                             <div class="row" style="margin: auto;">
-                                <div class="cold-md-6"><input onclick="postCambiosCoche();" class="btn btn-info" type="button" value="Enviar"></div>
+                                <div class="cold-md-6"><input onclick="postCambiosResultado();" class="btn btn-info" type="button" value="Enviar"></div>
 
-                                <div class="cold-md-6"><input style="background-color: #D01439" onclick="window.location.href = '{{url("listaCoches")}}'" class="btn btn-info" type="button" value="Atras"></div>
+                                <div class="cold-md-6"><input style="background-color: #D01439" onclick="window.location.href = '{{url("listaResultados")}}'" class="btn btn-info" type="button" value="Atras"></div>
                             </div>
                             {!! Form::close() !!}
                         </div>

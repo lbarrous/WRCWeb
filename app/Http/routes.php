@@ -40,12 +40,18 @@ Route::post('addTramo', [ 'as' => 'addTramo', 'uses' => 'RallyController@addTram
 Route::post('eliminarTramo', [ 'as' => 'eliminarTramo', 'uses' => 'RallyController@eliminarTramo']);
 Route::post('eliminarRally', [ 'as' => 'eliminarRally', 'uses' => 'RallyController@eliminarRally']);
 Route::post('eliminarPiloto', [ 'as' => 'eliminarPiloto', 'uses' => 'PilotoController@eliminarPiloto']);
+Route::post('eliminarCoche', [ 'as' => 'eliminarCoche', 'uses' => 'CocheController@eliminarCoche']);
+Route::post('eliminarResultado', [ 'as' => 'eliminarResultado', 'uses' => 'ResultadosController@eliminarResultado']);
 Route::post('saveCambiosRally', [ 'as' => 'saveCambiosRally', 'uses' => 'RallyController@saveCambiosRally']);
 Route::post('saveCambiosPiloto', [ 'as' => 'saveCambiosPiloto', 'uses' => 'PilotoController@saveCambiosPiloto']);
 Route::post('saveCambiosCoche', [ 'as' => 'saveCambiosCoche', 'uses' => 'CocheController@saveCambiosCoche']);
+Route::post('saveCambiosResultados', [ 'as' => 'saveCambiosResultados', 'uses' => 'ResultadosController@saveCambiosResultados']);
 Route::post('nuevoRally', [ 'as' => 'nuevoRally', 'uses' => 'RallyController@nuevoRally']);
 Route::post('nuevoPiloto', [ 'as' => 'nuevoPiloto', 'uses' => 'PilotoController@nuevoPiloto']);
+Route::post('nuevoCoche', [ 'as' => 'nuevoCoche', 'uses' => 'CocheController@nuevoCoche']);
+Route::post('nuevoResultado', [ 'as' => 'nuevoResultado', 'uses' => 'ResultadosController@nuevoResultado']);
 //Route::get('', [ 'as' => 'editaRally/{$codRally}', 'uses' => 'RallyController@editaRally']);
 Route::get('listaPilotos', [ 'as' => 'listaPilotos', 'uses' => 'PilotoController@showListaPilotos']);
 Route::get('listaCoches', [ 'as' => 'listaCoches', 'uses' => 'CocheController@showListaCoches']);
+Route::get('listaResultados', [ 'as' => 'listaResultados', 'uses' => 'ResultadosController@showListaResultados']);
 Route::get('dimeSiPuedoCrearPilotos', 'PilotoController@dimeSiPuedoCrearPilotos');

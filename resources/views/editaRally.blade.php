@@ -40,7 +40,7 @@
     <div id="main-wrapper">
 
         <div id="main" class="container">
-            <h2 class="major" style="margin: 0;"><span>Edición de Rally</span></h2>
+            <h2 class="major" style="margin: 0;"><span><?php if(isset($nuevo_rally)) echo 'Nuevo Rally'; else echo 'Edición de Rally';?></span></h2>
             <br>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-4">

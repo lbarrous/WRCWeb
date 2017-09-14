@@ -188,7 +188,7 @@ function postCambiosPiloto() {
                     message: data.msg
                 });
             }
-            else if(data.nuevoRally == 1) {
+            else if(data.nuevoPiloto == 1) {
                 BootstrapDialog.show({
                     type: BootstrapDialog.TYPE_PRIMARY,
                     title: "Cambios realizados correctamente",
@@ -207,6 +207,135 @@ function postCambiosPiloto() {
                     type: BootstrapDialog.TYPE_INFO,
                     title: "Cambios realizados correctamente",
                     message: "El Piloto ha sido actualizado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                        }
+                    }]
+                });
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function postCambiosResultado() {
+
+    var data = $( "#formResultado" ).serialize();
+    var url = baseUrl + "/saveCambiosResultados";
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: data,
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.msg
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_PRIMARY,
+                    title: "Cambios realizados correctamente",
+                    message: "El Resultado se ha registrado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                            window.location.href = baseUrl + "/listaResultados";
+                        }
+                    }]
+                });
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function postCambiosCoche() {
+
+    var data = $( "#formCoche" ).serialize();
+    var url = baseUrl + "/saveCambiosCoche";
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: data,
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.msg
+                });
+            }
+            else if(data.nuevoCoche == 1) {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_PRIMARY,
+                    title: "Cambios realizados correctamente",
+                    message: "El Coche ha sido actualizado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                            window.location.href = baseUrl + "/editaCoche/"+ data.codCoche;
+                        }
+                    }]
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_INFO,
+                    title: "Cambios realizados correctamente",
+                    message: "El Coche ha sido actualizado",
                     buttons: [{
                         label: 'Cerrar',
                         action: function(dialogItself){
@@ -490,6 +619,71 @@ function eliminarRally(codRally) {
     });
 }
 
+function eliminarCoche(codCoche) {
+
+    var url = baseUrl + "/eliminarCoche";
+    var _token = $('input[name="_token"]').val();
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: {"codCoche":codCoche, _token : _token},
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.err
+                });
+            }
+            else {
+                BootstrapDialog.confirm({
+                    title: 'Borrar Coche',
+                    message: 'Vas a borrar este Coche, ¿Estas seguro?',
+                    type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'Cancelar', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Borrar!', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-danger', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function(result) {
+                        // result will be true if button was click, while it will be false if users close the dialog directly.
+                        if(result) {
+                            $('#'+data).fadeOut(300, function() { $(this).remove();});
+                        }else {
+                            return false;
+                        }
+                    }
+                });
+
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
 function verCochePiloto(codCoche) {
 
     var url = baseUrl + "/verCochePiloto/"+codCoche;
@@ -590,6 +784,71 @@ function eliminarPiloto(codPiloto) {
                 BootstrapDialog.confirm({
                     title: 'Borrar Rally',
                     message: 'Vas a borrar este Piloto, ¿Estas seguro?',
+                    type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'Cancelar', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Borrar!', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-danger', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function(result) {
+                        // result will be true if button was click, while it will be false if users close the dialog directly.
+                        if(result) {
+                            $('#'+data).fadeOut(300, function() { $(this).remove();});
+                        }else {
+                            return false;
+                        }
+                    }
+                });
+
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function eliminarResultado(codRally, codPiloto) {
+
+    var url = baseUrl + "/eliminarResultado";
+    var _token = $('input[name="_token"]').val();
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: {"codPiloto":codPiloto, "codRally":codRally, _token : _token},
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.err
+                });
+            }
+            else {
+                BootstrapDialog.confirm({
+                    title: 'Borrar Resultado',
+                    message: 'Vas a borrar este Resultado, ¿Estas seguro?',
                     type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
                     closable: true, // <-- Default value is false
                     draggable: true, // <-- Default value is false

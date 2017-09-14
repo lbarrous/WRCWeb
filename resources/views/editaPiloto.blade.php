@@ -25,7 +25,7 @@
     <div id="main-wrapper">
 
         <div id="main" class="container">
-            <h2 class="major" style="margin: 0;"><span>Edición de Piloto</span></h2>
+            <h2 class="major" style="margin: 0;"><span><?php if(isset($datos["nuevo_piloto"])) echo 'Nuevo Piloto'; else echo 'Edición de Piloto';?></span></h2>
             <br>
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-4">

@@ -31,7 +31,7 @@
         <li class="{{$class_home_activa}}"><a href="{{url("/home")}}">Home</a></li>
         <li class="{{$class_rally_activa}}"><a href="{{url("/listaRallies")}}">Rallys</a></li>
         <li class="{{$class_piloto_activa}}"><a href="{{url("/listaPilotos")}}">Pilotos</a></li>
-        <li class="{{$class_coche_activa}}"><a href="{{url("/home")}}">Coches</a></li>
+        <li class="{{$class_coche_activa}}"><a href="{{url("/listaCoches")}}">Coches</a></li>
         <li class="{{$class_resultado_activa}}"><a href="{{url("/home")}}">Resultados</a></li>
         @if (Auth::guest())
             <li class="{{$class_usuario_activa}}">

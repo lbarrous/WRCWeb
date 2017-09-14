@@ -83,6 +83,7 @@ class PilotoController extends Controller
     {
         $coches_libres = $this->repoCoche->getCochesLibres();
         $datos["coches_libres"] = $coches_libres;
+        $datos["nuevo_piloto"] = 1;
 
         return view('editaPiloto')->with("datos", $datos);
 

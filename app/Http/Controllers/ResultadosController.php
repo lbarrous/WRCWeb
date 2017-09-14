@@ -11,16 +11,21 @@ namespace app\Http\Controllers;
 
 use App\Models\Repositories\CocheRepository;
 use App\Http\Controllers\Controller;
+use App\Models\Repositories\PilotoRepository;
+use App\Models\Repositories\RallyRepository;
+use App\Models\Repositories\ResultadosRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Validator;
 
-class CocheController extends Controller
+class ResultadosController extends Controller
 {
 
-    public function __construct(CocheRepository $cocheRepository)
+    public function __construct(ResultadosRepository $resultadosRepository, RallyRepository $rallyRepository, PilotoRepository $pilotoRepository)
     {
-        $this->repoCoche = $cocheRepository;
+        $this->repoResultados = $resultadosRepository;
+        $this->repoRally = $rallyRepository;
+        $this->repoPiloto = $pilotoRepository;
     }
 
     public function inicializaOpcionesDatatable() {
@@ -56,13 +61,11 @@ class CocheController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'marca' => 'required|max:255',
-            'modelo' => 'required|max:255',
-            'cilindrada' => 'numeric',
+            'posicion' => 'numeric',
         ]);
     }
 
-    public function showListaCoches()
+    public function showListaResultados()
     {
         $opcionesDatatable = $this->inicializaOpcionesDatatable();
 
@@ -73,9 +76,13 @@ class CocheController extends Controller
 
         $datos["opcionesDatatable"] = json_encode($opcionesDatatable);
 
-        $datos["coches"] = $this->repoCoche->getAllCoches();
+        $datos["resultados"] = $this->repoResultados->getAllResultados();
+        $rallies = $this->repoRally->getAllRallies();
+        foreach ($rallies as $rally) {
+            $datos["rallies"][] = $rally->codRally;
+        }
 
-        return view('listaCoches')->with('datos', $datos);
+        return view('listaResultados')->with('datos', $datos);
     }
 
     public function editaCoche($codCoche)
@@ -121,22 +128,41 @@ class CocheController extends Controller
         }
     }
 
-    public function eliminarCoche(Request $request)
+    public function eliminarResultado(Request $request)
     {
-        $codCoche = Input::get('codCoche');
-
-        if(!$this->repoCoche->dimeSiCocheTienePiloto($codCoche)) {
-            return json_encode(["err" => "Este coche no puede ser borrado por que tiene un piloto asignado."]);
-        }
-        else {
-            $coche = $this->repoCoche->eliminarCoche($codCoche);
-            return json_encode($coche);
-        }
+        $codPiloto = Input::get('codPiloto');
+        $codRally = Input::get('codRally');
+        $resultado = $this->repoResultados->eliminarResultado($codRally, $codPiloto);
+        return json_encode($resultado);
     }
 
-    function nuevoCoche()
+    function nuevoResultado()
     {
-        return view('editaCoche')->with("nuevo_coche", 1);
+        $datos["rallies"] = $this->repoRally->getAllRallies();
+        $datos["pilotos"] = $this->repoPiloto->getAllPilotos();
+        return view('editaResultados')->with("datos", $datos);
+    }
+
+    public function saveCambiosResultados(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $msgerrors = $validator->messages()->all();
+            $datos["msgsErroresValidator"] = $msgerrors;
+            return \Response::json( array('err' => true, "msg" =>$msgerrors[0]) );
+        }
+        else {
+            $datos = array(
+                'codRally' => Input::get('rally'),
+                'codPiloto' => Input::get('piloto'),
+                'posicion' => Input::get('posicion'),
+            );
+
+            $coche = $this->repoResultados->createResultado($datos);
+
+            return json_encode(array("result" => "ok"));
+        }
     }
 
 }
