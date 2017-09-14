@@ -23,6 +23,7 @@
 <?php strpos(Request::url(), "/listaPilotos") > -1 ? $class_piloto_activa = 'current' : $class_piloto_activa = ''?>
 <?php strpos(Request::url(), "/listaCoches") > -1 ? $class_coche_activa = 'current' : $class_coche_activa = ''?>
 <?php strpos(Request::url(), "/listaResultados") > -1 ? $class_resultado_activa = 'current' : $class_resultado_activa = ''?>
+<?php strpos(Request::url(), "/listaTiempos") > -1 ? $class_tiempo_activa = 'current' : $class_tiempo_activa = ''?>
 <?php strpos(Request::url(), "/login") > -1 || strpos(Request::url(), "/register") > -1 || strpos(Request::url(), "/perfil") > -1 ? $class_usuario_activa = 'current' : $class_usuario_activa = ''?>
 
 <!-- Nav -->
@@ -32,7 +33,8 @@
         <li class="{{$class_rally_activa}}"><a href="{{url("/listaRallies")}}">Rallys</a></li>
         <li class="{{$class_piloto_activa}}"><a href="{{url("/listaPilotos")}}">Pilotos</a></li>
         <li class="{{$class_coche_activa}}"><a href="{{url("/listaCoches")}}">Coches</a></li>
-        <li class="{{$class_resultado_activa}}"><a href="{{url("/home")}}">Resultados</a></li>
+        <li class="{{$class_resultado_activa}}"><a href="{{url("/listaResultados")}}">Resultados</a></li>
+        <li class="{{$class_tiempo_activa}}"><a href="{{url("/listaTiempos")}}">Tiempos</a></li>
         @if (Auth::guest())
             <li class="{{$class_usuario_activa}}">
                 <a>Usuario</a>

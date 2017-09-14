@@ -562,6 +562,72 @@ function eliminarTramo(codTramo) {
     });
 }
 
+function postCambiosTiempos() {
+
+    var data = $( "#formTiempo" ).serialize();
+    var url = baseUrl + "/saveCambiosTiempos";
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: data,
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.msg
+                });
+            }
+            else if(data.result == "error")
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: "Tiempo repetido."
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_PRIMARY,
+                    title: "Cambios realizados correctamente",
+                    message: "El Tiempo se ha registrado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                            window.location.href = baseUrl + "/listaTiempos";
+                        }
+                    }]
+                });
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
 function eliminarRally(codRally) {
 
     var url = baseUrl + "/eliminarRally";
@@ -857,6 +923,71 @@ function eliminarResultado(codRally, codPiloto) {
                 BootstrapDialog.confirm({
                     title: 'Borrar Resultado',
                     message: 'Vas a borrar este Resultado, ¿Estas seguro?',
+                    type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'Cancelar', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Borrar!', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-danger', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function(result) {
+                        // result will be true if button was click, while it will be false if users close the dialog directly.
+                        if(result) {
+                            $('#'+data).fadeOut(300, function() { $(this).remove();});
+                        }else {
+                            return false;
+                        }
+                    }
+                });
+
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function eliminarTiempo(codPiloto, codTramo) {
+
+    var url = baseUrl + "/eliminarTiempo";
+    var _token = $('input[name="_token"]').val();
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: {"codPiloto":codPiloto, "codTramo":codTramo, _token : _token},
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.err
+                });
+            }
+            else {
+                BootstrapDialog.confirm({
+                    title: 'Borrar Tiempo',
+                    message: 'Vas a borrar este Tiempo, ¿Estas seguro?',
                     type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
                     closable: true, // <-- Default value is false
                     draggable: true, // <-- Default value is false

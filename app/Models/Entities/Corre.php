@@ -14,4 +14,5 @@ class Corre extends Model
     protected $table = 'corre';
     protected $primaryKey = ['codPiloto', 'codTramo'];
     public $timestamps = false;
+    public $incrementing = false;
 }

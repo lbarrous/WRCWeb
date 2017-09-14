@@ -9,23 +9,26 @@
 namespace app\Http\Controllers;
 
 
-use App\Models\Repositories\CocheRepository;
+use App\Models\Repositories\TiempoRepository;
 use App\Http\Controllers\Controller;
 use App\Models\Repositories\PilotoRepository;
 use App\Models\Repositories\RallyRepository;
-use App\Models\Repositories\ResultadosRepository;
+use App\Models\Repositories\TiemposRepository;
+use App\Models\Repositories\TramoRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Validator;
 
-class ResultadosController extends Controller
+class TiemposController extends Controller
 {
 
-    public function __construct(ResultadosRepository $resultadosRepository, RallyRepository $rallyRepository, PilotoRepository $pilotoRepository)
+    public function __construct(TramoRepository $tramoRepository, TiemposRepository $tiemposRepository, TiemposRepository $resultadosRepository, RallyRepository $rallyRepository, PilotoRepository $pilotoRepository)
     {
-        $this->repoResultados = $resultadosRepository;
+        $this->repoTiempos = $resultadosRepository;
         $this->repoRally = $rallyRepository;
         $this->repoPiloto = $pilotoRepository;
+        $this->repoTiempos = $tiemposRepository;
+        $this->repoTramos = $tramoRepository;
     }
 
     public function inicializaOpcionesDatatable() {
@@ -39,7 +42,7 @@ class ResultadosController extends Controller
                 "processing" => "Procesandp",
                 "info"=> "Mostrando página _PAGE_ de _PAGES_",
                 "infoEmpty"=> "Sin Registros",
-                "infoFiltered"=> "(Resultado filtrado de un total de _MAX_ registros)",
+                "infoFiltered"=> "(Tiempo filtrado de un total de _MAX_ registros)",
                 "paginate" => array (
                     "first"=> "Primera",
                     "previous"=> "<strong><</strong>",
@@ -61,11 +64,11 @@ class ResultadosController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'posicion' => 'required|numeric',
+            'tiempo' => 'required|numeric',
         ]);
     }
 
-    public function showListaResultados()
+    public function showListaTiempos()
     {
         $opcionesDatatable = $this->inicializaOpcionesDatatable();
 
@@ -76,24 +79,24 @@ class ResultadosController extends Controller
 
         $datos["opcionesDatatable"] = json_encode($opcionesDatatable);
 
-        $datos["resultados"] = $this->repoResultados->getAllResultados();
-        $rallies = $this->repoRally->getAllRallies();
-        foreach ($rallies as $rally) {
-            $datos["rallies"][] = $rally->codRally;
+        $datos["tiempos"] = $this->repoTiempos->getAllTiempos();
+        $pilotos = $this->repoPiloto->getAllPilotos();
+        foreach ($pilotos as $piloto) {
+            $datos["pilotos"][] = $piloto->codPiloto;
         }
 
-        return view('listaResultados')->with('datos', $datos);
+        return view('listaTiempos')->with('datos', $datos);
     }
 
-    public function editaCoche($codCoche)
+    public function editaTiempo($codTiempo)
     {
-        $coche = $this->repoCoche->getCocheByCod($codCoche);
+        $coche = $this->repoTiempo->getTiempoByCod($codTiempo);
         $datos["coche"] = $coche;
 
-        return view('editaCoche')->with('datos', $datos);
+        return view('editaTiempo')->with('datos', $datos);
     }
 
-    public function saveCambiosCoche(Request $request)
+    public function saveCambiosTiempo(Request $request)
     {
         $validator = $this->validator($request->all());
 
@@ -103,7 +106,7 @@ class ResultadosController extends Controller
             return \Response::json( array('err' => true, "msg" =>$msgerrors[0]) );
         }
         else {
-            $codCoche = Input::get('codCoche');
+            $codTiempo = Input::get('codTiempo');
 
             $datos = array(
                 'marca' => Input::get('marca'),
@@ -111,39 +114,39 @@ class ResultadosController extends Controller
                 'cilindrada' => Input::get('cilindrada'),
             );
 
-            if($codCoche == "") {
-                $coche = $this->repoCoche->createCoche();
-                $nuevoCoche = 1;
+            if($codTiempo == "") {
+                $coche = $this->repoTiempo->createTiempo();
+                $nuevoTiempo = 1;
             }
             else {
-                $coche = $this->repoCoche->getCocheByCod($codCoche);
-                $nuevoCoche = 0;
+                $coche = $this->repoTiempo->getTiempoByCod($codTiempo);
+                $nuevoTiempo = 0;
             }
 
-            $this->repoCoche->updateCocheByCod($coche->codCoche, $datos);
+            $this->repoTiempo->updateTiempoByCod($coche->codTiempo, $datos);
 
-            $datos["coche"] = $this->repoCoche->getCocheByCod($coche->codCoche);
+            $datos["coche"] = $this->repoTiempo->getTiempoByCod($coche->codTiempo);
 
-            return json_encode(array("result" => "ok", "codCoche" => $coche->codCoche, "nuevoCoche" => $nuevoCoche));
+            return json_encode(array("result" => "ok", "codTiempo" => $coche->codTiempo, "nuevoTiempo" => $nuevoTiempo));
         }
     }
 
-    public function eliminarResultado(Request $request)
+    public function eliminarTiempo(Request $request)
     {
         $codPiloto = Input::get('codPiloto');
-        $codRally = Input::get('codRally');
-        $resultado = $this->repoResultados->eliminarResultado($codRally, $codPiloto);
+        $codTramo = Input::get('codTramo');
+        $resultado = $this->repoTiempos->eliminarTiempo($codPiloto, $codTramo);
         return json_encode($resultado);
     }
 
-    function nuevoResultado()
+    function nuevoTiempo()
     {
-        $datos["rallies"] = $this->repoRally->getAllRallies();
+        $datos["tramos"] = $this->repoTramos->getAllTramosRallies();
         $datos["pilotos"] = $this->repoPiloto->getAllPilotos();
-        return view('editaResultados')->with("datos", $datos);
+        return view('editaTiempos')->with("datos", $datos);
     }
 
-    public function saveCambiosResultados(Request $request)
+    public function saveCambiosTiempos(Request $request)
     {
         $validator = $this->validator($request->all());
 
@@ -154,18 +157,19 @@ class ResultadosController extends Controller
         }
         else {
             $datos = array(
-                'codRally' => Input::get('rally'),
+                'tramo' => Input::get('tramo'),
                 'codPiloto' => Input::get('piloto'),
-                'posicion' => Input::get('posicion'),
+                'tiempo' => Input::get('tiempo'),
             );
 
-            if($this->repoResultados->dimeSiResultadoRepetido(Input::get('rally'),Input::get('piloto')) > 0)
+            if($this->repoTiempos->dimeSiTiempoRepetido(Input::get('piloto'),Input::get('tramo')) > 0)
                 return json_encode(array("result" => "error"));
             else {
-                $coche = $this->repoResultados->createResultado($datos);
+                $tiempo = $this->repoTiempos->createTiempo($datos);
 
                 return json_encode(array("result" => "ok"));
             }
+
 
         }
     }
