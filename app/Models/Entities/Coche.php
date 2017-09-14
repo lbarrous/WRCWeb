@@ -13,5 +13,6 @@ class Coche extends Model
 {
     protected $table = 'coche';
     protected $primaryKey = 'codCoche';
+    public $incrementing = false;
     public $timestamps = false;
 }

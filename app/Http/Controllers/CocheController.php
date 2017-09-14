@@ -63,7 +63,52 @@ class CocheController extends Controller
 
         $datos["coches"] = $this->repoCoche->getAllCoches();
 
-        return view('listaRallies')->with('datos', $datos);
+        return view('listaCoches')->with('datos', $datos);
+    }
+
+    public function editaCoche($codCoche)
+    {
+        $coche = $this->repoCoche->getCocheByCod($codCoche);
+        $datos["coche"] = $coche;
+
+        return view('editaCoche')->with('datos', $datos);
+    }
+
+    public function saveCambiosCoche(Request $request)
+    {
+        /*$validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $msgerrors = $validator->messages()->all();
+            $datos["msgsErroresValidator"] = $msgerrors;
+            return \Response::json( array('err' => true, "msg" =>$msgerrors[0]) );
+        }
+        else {
+            $codPiloto = Input::get('codPiloto');
+
+            $datos = array(
+                'nombre' => Input::get('nombre'),
+                'grupoS' => Input::get('grupoS'),
+                'rh' => Input::get('rh'),
+                'nombreCop' => Input::get('nombreCop'),
+                'coche' => Input::get('coche'),
+            );
+
+            if($codPiloto == "") {
+                $piloto = $this->repoPiloto->createPiloto($datos);
+                $nuevoPiloto = 1;
+            }
+            else {
+                $piloto = $this->repoPiloto->getPilotoByCod($codPiloto);
+                $nuevoPiloto = 0;
+            }
+
+            $this->repoPiloto->updatePilotoByCod($piloto->codPiloto, $datos);
+
+            $datos["piloto"] = $this->repoPiloto->getPilotoByCod($piloto->codPiloto);
+
+            return json_encode(array("result" => "ok", "codPiloto" => $piloto->codPiloto, "nuevoPiloto" => $nuevoPiloto));
+        }*/
     }
 
 

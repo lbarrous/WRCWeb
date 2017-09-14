@@ -67,7 +67,7 @@
                         <table id="pretabla" class="display responsive dtr-inline" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>codPiloto</th>
+                                <!--<th>codPiloto</th>-->
                                 <th>Nombre</th>
                                 <th>Grupo Sanguíneo</th>
                                 <th>RH</th>
@@ -79,24 +79,24 @@
                             <tbody>
 
 
-                            @foreach ($datos['pilotos'] as $coche)
+                            @foreach ($datos['pilotos'] as $piloto)
 
+                                <tr id="{{$piloto->codPiloto}}">
 
-                                <tr id="{{$coche->codRally}}">
-
-                                    <td>{{$coche->codRally}}</td>
-                                    <td>{{$coche->nombre}}</td>
-                                    <td>{{$coche->pais}}</td>
-                                    <td>{{$coche->fecha}}</td>
-                                    <td><a onclick="verTramos('{{$rally->codRally}}');">Ver Tramos</a></td>
+                                    <!--<td>{{$piloto->codPiloto}}</td>-->
+                                    <td>{{$piloto->nombreP}}</td>
+                                    <td>{{$piloto->grupoS}}</td>
+                                    <td>{{$piloto->rh}}</td>
+                                    <td>{{$piloto->nombreCop}}</td>
+                                    <td><a onclick="verCochePiloto('{{$piloto->coche}}');">Coche</a></td>
 
                                     <td width="15%" style="text-align: center;">
                                         <div class="dropdown">
                                             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Opciones
                                                 <span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                                <li style="cursor: pointer; font-size: 1.20em;"><a href="{{url("/editaRally/".$rally->codRally)}}"><i style='color: black;' class="icono_editar fa fa-pencil lapiz_plantilla" aria-hidden="true"></i> Editar Rally</a></li>
-                                                <li style="cursor: pointer; font-size: 1.20em;"><a onclick="eliminarRally('{{$rally->codRally}}');"><i style='color: black;' class="icono_eliminar fa fa-trash papelera_plantilla" aria-hidden="true"></i> Eliminar Rally</a></li>
+                                                <li style="cursor: pointer; font-size: 1.20em;"><a href="{{url("/editaPiloto/".$piloto->codPiloto)}}"><i style='color: black;' class="icono_editar fa fa-pencil lapiz_plantilla" aria-hidden="true"></i> Editar Piloto</a></li>
+                                                <li style="cursor: pointer; font-size: 1.20em;"><a onclick="eliminarPiloto('{{$piloto->codPiloto}}');"><i style='color: black;' class="icono_eliminar fa fa-trash papelera_plantilla" aria-hidden="true"></i> Eliminar Piloto</a></li>
                                             </ul>
                                         </div>
                                     </td>
@@ -110,7 +110,7 @@
                             <div class="col-lg-12">
                                 <div id="contenedor_alertas" class="panel panel-default">
                                     <br/>
-                                    <div class="alert alert-warning" role="alert">No hay Rallies almacenados</div>
+                                    <div class="alert alert-warning" role="alert">No hay Pilotos almacenados</div>
                                 </div>
                             </div>
                         </div>

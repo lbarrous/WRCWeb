@@ -13,5 +13,6 @@ class Piloto extends Model
 {
     protected $table = 'piloto';
     protected $primaryKey = 'codPiloto';
+    public $incrementing = false;
     public $timestamps = false;
 }

@@ -166,6 +166,77 @@ function postCambiosRally() {
     });
 }
 
+function postCambiosPiloto() {
+
+    var data = $( "#formPiloto" ).serialize();
+    var url = baseUrl + "/saveCambiosPiloto";
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: data,
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.msg
+                });
+            }
+            else if(data.nuevoRally == 1) {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_PRIMARY,
+                    title: "Cambios realizados correctamente",
+                    message: "El Piloto ha sido actualizado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                            window.location.href = baseUrl + "/editaPiloto/"+ data.codPiloto;
+                        }
+                    }]
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_INFO,
+                    title: "Cambios realizados correctamente",
+                    message: "El Piloto ha sido actualizado",
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                        }
+                    }]
+                });
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
 function verTramos(codRally) {
 
     var url = baseUrl + "/verTramos/"+codRally;
@@ -178,7 +249,7 @@ function verTramos(codRally) {
 
             console.log(data);
 
-            $('<div></div>').load('remote.html')
+            //$('<div></div>').load('remote.html')
 
             var tramos = '<table class="table table-striped">';
             tramos += '<thead>';
@@ -418,3 +489,176 @@ function eliminarRally(codRally) {
         }
     });
 }
+
+function verCochePiloto(codCoche) {
+
+    var url = baseUrl + "/verCochePiloto/"+codCoche;
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType:"json",
+        success: function (data) {
+
+            console.log(data);
+
+            //$('<div></div>').load('remote.html')
+
+            var coche = '<table class="table table-striped">';
+            coche += '<thead>';
+            coche += '<tr>';
+            coche += '<th>Marca</th>';
+            coche += '<th>Modelo</th>';
+            coche += '<th>Cilindrada</th>';
+            coche += '</tr>';
+            coche += '</thead>';
+            coche += '<tbody>';
+            coche += '<tr>';
+            coche += '<td>'+data.coche.marca+'</td>';
+            coche += '<td>'+data.coche.modelo+'</td>';
+            coche += '<td>'+data.coche.cilindrada+'</td>';
+            coche += '</tr>';
+            coche += '</tbody>';
+            coche += '</table>';
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.msg
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_INFO,
+                    title: "Coche del Piloto",
+                    message: coche,
+                    buttons: [{
+                        label: 'Cerrar',
+                        action: function(dialogItself){
+                            dialogItself.close();
+                        }
+                    }]
+                });
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+function eliminarPiloto(codPiloto) {
+
+    var url = baseUrl + "/eliminarPiloto";
+    var _token = $('input[name="_token"]').val();
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType:"json",
+        data: {"codPiloto":codPiloto, _token : _token},
+        success: function (data) {
+
+            console.log(data);
+
+            if(data.err)
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: data.err
+                });
+            }
+            else {
+                BootstrapDialog.confirm({
+                    title: 'Borrar Rally',
+                    message: 'Vas a borrar este Piloto, ¿Estas seguro?',
+                    type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    draggable: true, // <-- Default value is false
+                    btnCancelLabel: 'Cancelar', // <-- Default value is 'Cancel',
+                    btnOKLabel: 'Borrar!', // <-- Default value is 'OK',
+                    btnOKClass: 'btn-danger', // <-- If you didn't specify it, dialog type will be used,
+                    callback: function(result) {
+                        // result will be true if button was click, while it will be false if users close the dialog directly.
+                        if(result) {
+                            $('#'+data).fadeOut(300, function() { $(this).remove();});
+                        }else {
+                            return false;
+                        }
+                    }
+                });
+
+            }
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}
+
+/*function dimeSiPuedoCrearPilotos() {
+
+    var url = baseUrl + "/dimeSiPuedoCrearPilotos/";
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType:"json",
+        success: function (data) {
+            alert(1);
+
+            console.log(data);
+
+        },
+        error: function(jqXHR,error, errorThrown) {
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                title: "Error",
+                message: "Error en el sistema, contacte con el administrador",
+                buttons: [{
+                    label: 'Cerrar',
+                    action: function(dialogItself){
+                        dialogItself.close();
+
+                    }
+                }]
+            });
+            console.log("err...");
+            console.log(error);
+            console.log(errorThrown);
+        }
+    });
+}*/

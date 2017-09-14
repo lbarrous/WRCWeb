@@ -15,4 +15,14 @@ class CocheRepository
     public function getAllCoches() {
         return Coche::all();
     }
+
+    public function getCocheByCod($codCoche) {
+        return Coche::where("codCoche", $codCoche)->first();
+    }
+
+    public function getCochesLibres() {
+        return \DB::select("select * from coche c
+            where c.codCoche not in (select coche from piloto)
+            ");
+    }
 }

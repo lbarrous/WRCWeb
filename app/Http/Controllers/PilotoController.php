@@ -9,15 +9,20 @@
 namespace app\Http\Controllers;
 
 
+use App\Models\Repositories\CocheRepository;
 use App\Models\Repositories\PilotoRepository;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
+use Validator;
 
 class PilotoController extends Controller
 {
 
-    public function __construct(PilotoRepository $pilotoRepository)
+    public function __construct(PilotoRepository $pilotoRepository, CocheRepository $cocheRepository)
     {
         $this->repoPiloto = $pilotoRepository;
+        $this->repoCoche = $cocheRepository;
     }
 
     public function inicializaOpcionesDatatable() {
@@ -50,6 +55,14 @@ class PilotoController extends Controller
         return $opcionesDatatable;
     }
 
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'nombre' => 'required|max:255',
+            'nombreCop' => 'required|max:255',
+        ]);
+    }
+
     public function showListaPilotos()
     {
         $opcionesDatatable = $this->inicializaOpcionesDatatable();
@@ -66,5 +79,90 @@ class PilotoController extends Controller
         return view('listaPilotos')->with('datos', $datos);
     }
 
+    function nuevoPiloto()
+    {
+        $coches_libres = $this->repoCoche->getCochesLibres();
+        $datos["coches_libres"] = $coches_libres;
+
+        return view('editaPiloto')->with("datos", $datos);
+
+    }
+
+    public function editaPiloto($codPiloto)
+    {
+        $piloto = $this->repoPiloto->getPilotoByCod($codPiloto);
+        $coches_libres = $this->repoCoche->getCochesLibres();
+
+        $datos["piloto"] = $piloto;
+
+        $datos["coches_libres"] = $coches_libres;
+
+        return view('editaPiloto')->with('datos', $datos);
+    }
+
+    public function verCochePiloto($codCoche)
+    {
+        $coche = $this->repoCoche->getCocheByCod($codCoche);
+
+        $datos["coche"] = $coche;
+
+        return json_encode($datos);
+    }
+
+    public function saveCambiosPiloto(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $msgerrors = $validator->messages()->all();
+            $datos["msgsErroresValidator"] = $msgerrors;
+            return \Response::json( array('err' => true, "msg" =>$msgerrors[0]) );
+        }
+        else {
+            $codPiloto = Input::get('codPiloto');
+
+            $datos = array(
+                'nombre' => Input::get('nombre'),
+                'grupoS' => Input::get('grupoS'),
+                'rh' => Input::get('rh'),
+                'nombreCop' => Input::get('nombreCop'),
+                'coche' => Input::get('coche'),
+            );
+
+            if($codPiloto == "") {
+                $piloto = $this->repoPiloto->createPiloto($datos);
+                $nuevoPiloto = 1;
+            }
+            else {
+                $piloto = $this->repoPiloto->getPilotoByCod($codPiloto);
+                $nuevoPiloto = 0;
+            }
+
+            $this->repoPiloto->updatePilotoByCod($piloto->codPiloto, $datos);
+
+            $datos["piloto"] = $this->repoPiloto->getPilotoByCod($piloto->codPiloto);
+
+            return json_encode(array("result" => "ok", "codPiloto" => $piloto->codPiloto, "nuevoPiloto" => $nuevoPiloto));
+        }
+    }
+
+    public function eliminarPiloto(Request $request)
+    {
+        $codPiloto = Input::get('codPiloto');
+
+        if(!$this->repoPiloto->dimeSiPilotoTieneParticipacion($codPiloto)) {
+            return json_encode(["err" => "Este piloto no puede ser borrado por que tiene uno o varios resultados asignados."]);
+        }
+        else {
+            $piloto = $this->repoPiloto->eliminarPiloto($codPiloto);
+            return json_encode($piloto);
+        }
+    }
+
+    public function dimeSiPuedoCrearPilotos()
+    {
+        var_dump(1);exit;
+        return count($this->repoCoche->getAllCoches()) > count($this->repoPiloto->getAllPilotos());
+    }
 
 }
