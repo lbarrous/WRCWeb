@@ -259,6 +259,14 @@ function postCambiosResultado() {
                     message: data.msg
                 });
             }
+            else if(data.result == "error")
+            {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error',
+                    message: "Resultado repetido."
+                });
+            }
             else {
                 BootstrapDialog.show({
                     type: BootstrapDialog.TYPE_PRIMARY,

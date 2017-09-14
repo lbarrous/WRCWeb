@@ -159,9 +159,14 @@ class ResultadosController extends Controller
                 'posicion' => Input::get('posicion'),
             );
 
-            $coche = $this->repoResultados->createResultado($datos);
+            if($this->repoResultados->dimeSiResultadoRepetido(Input::get('rally'),Input::get('piloto')) > 0)
+                return json_encode(array("result" => "error"));
+            else {
+                $coche = $this->repoResultados->createResultado($datos);
 
-            return json_encode(array("result" => "ok"));
+                return json_encode(array("result" => "ok"));
+            }
+
         }
     }
 

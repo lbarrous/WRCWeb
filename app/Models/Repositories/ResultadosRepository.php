@@ -43,4 +43,8 @@ class ResultadosRepository
         $posicion->save();
         return $posicion;
     }
+
+    public function dimeSiResultadoRepetido($codRally, $codPiloto) {
+        return Posicion::where("codRally", $codRally)->where("codPiloto", $codPiloto)->count() > 0;
+    }
 }
