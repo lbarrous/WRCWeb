@@ -68,9 +68,15 @@ class PilotoController extends Controller
         $opcionesDatatable = $this->inicializaOpcionesDatatable();
 
         $opcionesDatatable["aoColumns"] = array(
-            array("bVisible" => false), //Aqui siempre el ID (PK)
+            array(null), //Aqui siempre el ID (PK)
+            array(null),
+            array(null),
+            array(null),
             array(null),
         );
+
+        if (!\Auth::guest())
+            $opcionesDatatable["aoColumns"][] = array(null);
 
         $datos["opcionesDatatable"] = json_encode($opcionesDatatable);
 

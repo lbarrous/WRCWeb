@@ -53,9 +53,11 @@
 
                 <div class="col-lg-12">
 
+                    @if (!Auth::guest())
                     {{ Form::open(array('url' => 'nuevoRally')) }}
                     <button style='float: right;' type="submit" id="add_pantalla_login" class="btn btn-md btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nuevo Rally</button>
                     {{ Form::close() }}
+                    @endif
 
                 </div>
 
@@ -72,7 +74,9 @@
                             <th>Pais</th>
                             <th>Fecha</th>
                             <th>Tramos</th>
-                            <th></th>
+                            @if (!Auth::guest())
+                            <th>Opciones</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -89,6 +93,7 @@
                                 <td>{{$rally->fecha}}</td>
                                 <td><a onclick="verTramos('{{$rally->codRally}}');">Ver Tramos</a></td>
 
+                                @if (!Auth::guest())
                                 <td width="15%" style="text-align: center;">
                                     <div class="dropdown">
                                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Opciones
@@ -99,6 +104,7 @@
                                         </ul>
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>

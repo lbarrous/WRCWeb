@@ -1,199 +1,40 @@
 @extends('layouts.mainLayout')
 
 @section('contenido')
-    <div id="main-wrapper">
-        <div id="main" class="container">
-            <div class="row 200%">
-                <div class="12u">
+    <div id="main-wrapper"><br>
+        <div class="container">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
 
-                    <!-- Highlight -->
-                    <section class="box highlight">
-                        <ul class="special">
-                            <li><a href="#" class="icon fa-search"><span class="label">Magnifier</span></a></li>
-                            <li><a href="#" class="icon fa-tablet"><span class="label">Tablet</span></a></li>
-                            <li><a href="#" class="icon fa-flask"><span class="label">Flask</span></a></li>
-                            <li><a href="#" class="icon fa-cog"><span class="label">Cog?</span></a></li>
-                        </ul>
-                        <header>
-                            <h2>A random assortment of icons in circles</h2>
-                            <p>And some text that attempts to explain their significance</p>
-                        </header>
-                        <p>
-                            Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus. Praesent semper mod quis eget mi. Etiam eu<br />
-                            ante risus. Aliquam erat volutpat. Aliquam luctus et mattis lectus amet pulvinar. Nam nec turpis consequat.
-                        </p>
-                    </section>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="https://image.redbull.com/rbcom/010/2015-12-04/1331763514926_2/0010/1/1500/1000/1/los-volkswagen-world-rally-car-dirt-rally-videojuego.jpg" alt="Los Angeles" style="width:100%;">
+                    </div>
 
+                    <div class="item">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Chris_Atkinson_-_2008_Rally_d%27Italia_Sardegna.jpg/1200px-Chris_Atkinson_-_2008_Rally_d%27Italia_Sardegna.jpg" alt="Chicago" style="width:100%;">
+                    </div>
+
+                    <div class="item">
+                        <img src="http://www.wrc.com/images//Calendar/2016/12_GB/9988_Wales-MSport-Ostberg-2016_2_896x504.jpg?1477579546" alt="New york" style="width:100%;">
+                    </div>
                 </div>
-            </div>
-            <div class="row 200%">
-                <div class="12u">
 
-                    <!-- Features -->
-                    <section class="box features">
-                        <h2 class="major"><span>A Major Heading</span></h2>
-                        <div>
-                            <div class="row">
-                                <div class="3u 12u(mobile)">
-
-                                    <!-- Feature -->
-                                    <section class="box feature">
-                                        <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
-                                        <h3><a href="#">A Subheading</a></h3>
-                                        <p>
-                                            Phasellus quam turpis, feugiat sit amet ornare in, a hendrerit in
-                                            lectus dolore. Praesent semper mod quis eget sed etiam eu ante risus.
-                                        </p>
-                                    </section>
-
-                                </div>
-                                <div class="3u 12u(mobile)">
-
-                                    <!-- Feature -->
-                                    <section class="box feature">
-                                        <a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
-                                        <h3><a href="#">Another Subheading</a></h3>
-                                        <p>
-                                            Phasellus quam turpis, feugiat sit amet ornare in, a hendrerit in
-                                            lectus dolore. Praesent semper mod quis eget sed etiam eu ante risus.
-                                        </p>
-                                    </section>
-
-                                </div>
-                                <div class="3u 12u(mobile)">
-
-                                    <!-- Feature -->
-                                    <section class="box feature">
-                                        <a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-                                        <h3><a href="#">And Another</a></h3>
-                                        <p>
-                                            Phasellus quam turpis, feugiat sit amet ornare in, a hendrerit in
-                                            lectus dolore. Praesent semper mod quis eget sed etiam eu ante risus.
-                                        </p>
-                                    </section>
-
-                                </div>
-                                <div class="3u 12u(mobile)">
-
-                                    <!-- Feature -->
-                                    <section class="box feature">
-                                        <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-                                        <h3><a href="#">And One More</a></h3>
-                                        <p>
-                                            Phasellus quam turpis, feugiat sit amet ornare in, a hendrerit in
-                                            lectus dolore. Praesent semper mod quis eget sed etiam eu ante risus.
-                                        </p>
-                                    </section>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="12u">
-                                    <ul class="actions">
-                                        <li><a href="#" class="button big">Do Something</a></li>
-                                        <li><a href="#" class="button alt big">Think About It</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                </div>
-            </div>
-            <div class="row 200%">
-                <div class="12u">
-
-                    <!-- Blog -->
-                    <section class="box blog">
-                        <h2 class="major"><span>Another Major Heading</span></h2>
-                        <div>
-                            <div class="row">
-                                <div class="9u 12u(mobile)">
-                                    <div class="content content-left">
-
-                                        <!-- Featured Post -->
-                                        <article class="box post">
-                                            <header>
-                                                <h3><a href="#">Here's a really big heading</a></h3>
-                                                <p>With a smaller subtitle that attempts to elaborate</p>
-                                                <ul class="meta">
-                                                    <li class="icon fa-clock-o">15 minutes ago</li>
-                                                    <li class="icon fa-comments"><a href="#">8</a></li>
-                                                </ul>
-                                            </header>
-                                            <a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-                                            <p>
-                                                Phasellus quam turpis, feugiat sit amet ornare in, a hendrerit in lectus. Praesent
-                                                semper mod quis eget mi. Etiam sed ante risus aliquam erat et volutpat. Praesent a
-                                                dapibus velit. Curabitur sed nisi nunc, accumsan vestibulum lectus. Lorem ipsum
-                                                dolor sit non aliquet sed, tempor et dolor.  Praesent a dapibus velit. Curabitur
-                                                accumsan.
-                                            </p>
-                                            <a href="#" class="button">Continue Reading</a>
-                                        </article>
-
-                                    </div>
-                                </div>
-                                <div class="3u 12u(mobile)">
-                                    <div class="sidebar">
-
-                                        <!-- Archives -->
-                                        <ul class="divided">
-                                            <li>
-                                                <article class="box post-summary">
-                                                    <h3><a href="#">A Subheading</a></h3>
-                                                    <ul class="meta">
-                                                        <li class="icon fa-clock-o">6 hours ago</li>
-                                                        <li class="icon fa-comments"><a href="#">34</a></li>
-                                                    </ul>
-                                                </article>
-                                            </li>
-                                            <li>
-                                                <article class="box post-summary">
-                                                    <h3><a href="#">Another Subheading</a></h3>
-                                                    <ul class="meta">
-                                                        <li class="icon fa-clock-o">9 hours ago</li>
-                                                        <li class="icon fa-comments"><a href="#">27</a></li>
-                                                    </ul>
-                                                </article>
-                                            </li>
-                                            <li>
-                                                <article class="box post-summary">
-                                                    <h3><a href="#">And Another</a></h3>
-                                                    <ul class="meta">
-                                                        <li class="icon fa-clock-o">Yesterday</li>
-                                                        <li class="icon fa-comments"><a href="#">184</a></li>
-                                                    </ul>
-                                                </article>
-                                            </li>
-                                            <li>
-                                                <article class="box post-summary">
-                                                    <h3><a href="#">And Another</a></h3>
-                                                    <ul class="meta">
-                                                        <li class="icon fa-clock-o">2 days ago</li>
-                                                        <li class="icon fa-comments"><a href="#">286</a></li>
-                                                    </ul>
-                                                </article>
-                                            </li>
-                                            <li>
-                                                <article class="box post-summary">
-                                                    <h3><a href="#">And One More</a></h3>
-                                                    <ul class="meta">
-                                                        <li class="icon fa-clock-o">3 days ago</li>
-                                                        <li class="icon fa-comments"><a href="#">8,086</a></li>
-                                                    </ul>
-                                                </article>
-                                            </li>
-                                        </ul>
-                                        <a href="#" class="button alt">Browse Archives</a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
     </div>

@@ -56,9 +56,11 @@
 
                 <div class="col-lg-12">
 
+                    @if (!Auth::guest())
                     {{ Form::open(array('url' => 'nuevoResultado')) }}
                     <button style='float: right;' type="submit" id="add_pantalla_login" class="btn btn-md btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nuevo Resultado</button>
                     {{ Form::close() }}
+                        @endif
 
                 </div>
 
@@ -76,7 +78,9 @@
                                     <!--<th>codPiloto</th>-->
                                     <th>Piloto</th>
                                     <th>Posicion</th>
+                                    @if (!Auth::guest())
                                     <th></th>
+                                        @endif
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -87,12 +91,14 @@
                                         <td>{{$posicion->nombreP}}</td>
                                         <td>{{$posicion->posicion}}</td>
 
+                                        @if (!Auth::guest())
                                         <td width="15%" style="text-align: center;">
                                             <div class="dropdown">
                                                 <button onclick="eliminarResultado('{{$rally["codRally"]}}','{{$posicion->codPiloto}}');" class="btn btn-danger" type="button">Eliminar</button>
 
                                             </div>
                                         </td>
+                                            @endif
                                     </tr>
                                 @endforeach
                                 </tbody>

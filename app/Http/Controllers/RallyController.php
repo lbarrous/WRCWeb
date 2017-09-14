@@ -70,12 +70,15 @@ class RallyController extends Controller
         $opcionesDatatable = $this->inicializaOpcionesDatatable();
 
         $opcionesDatatable["aoColumns"] = array(
-            array("bVisible" => false), //Aqui siempre el ID (PK)
+            array(null), //Aqui siempre el ID (PK)
             array(null),
             array(null),
             array(null),
             array(null),
         );
+
+        if (!\Auth::guest())
+            $opcionesDatatable["aoColumns"][] = array(null);
 
         $datos["opcionesDatatable"] = json_encode($opcionesDatatable);
 
@@ -104,10 +107,22 @@ class RallyController extends Controller
     {
         $tramos = $this->repoRally->getTramosByCodRally($codRally);
 
-        $datos["tramos"] = $tramos;
-        $datos["codRally"] = $codRally;
+        if(count($tramos) < 5) {
+            $datos["tramos"] = $tramos;
+            $datos["codRally"] = $codRally;
+            $datos["sql_compleja"] = 0;
 
-        return json_encode($datos);
+            return json_encode($datos);
+        }
+        else {
+            $tramos = $this->repoRally->getTramosByCodRallyCompleja($codRally);
+            $datos["tramos"] = $tramos;
+            $datos["codRally"] = $codRally;
+            $datos["sql_compleja"] = 1;
+
+            return json_encode($datos);
+        }
+
     }
 
     public function addTramo(Request $request)

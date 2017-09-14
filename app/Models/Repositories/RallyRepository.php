@@ -53,6 +53,23 @@ class RallyRepository
         return $tramos;
     }
 
+    public function getTramosByCodRallyCompleja($codRally) {
+
+        $tramos = \DB::select("SELECT * FROM rally r
+                                inner join tramo t
+                                on t.codRally = r.codRally
+                                
+                                inner join corre c
+                                on c.codTramo = t.codTramo
+                                
+                                inner join piloto p
+                                on p.codPiloto = c.codPiloto
+                                
+                                where r.codRally = '".$codRally."'");
+
+        return $tramos;
+    }
+
     public function addTramoByCodRally($codRally, $datos) {
 
         if(Tramo::where('codRally', $codRally)->count() > 0) {

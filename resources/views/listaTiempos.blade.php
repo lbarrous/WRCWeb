@@ -56,9 +56,11 @@
 
                 <div class="col-lg-12">
 
+                    @if (!Auth::guest())
                     {{ Form::open(array('url' => 'nuevoTiempo')) }}
                     <button style='float: right;' type="submit" id="add_pantalla_login" class="btn btn-md btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> Nuevo Tiempo</button>
                     {{ Form::close() }}
+                        @endif
 
                 </div>
 
@@ -79,7 +81,9 @@
                                     <th>Tiempo</th>
                                     <th>Dificultad</th>
                                     <th>Kilometros totales</th>
+                                    @if (!Auth::guest())
                                     <th></th>
+                                        @endif
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -92,12 +96,14 @@
                                         <td>{{$tiempo->dificultad}}</td>
                                         <td>{{$tiempo->totalKms}}</td>
 
+                                        @if (!Auth::guest())
                                         <td width="15%" style="text-align: center;">
                                             <div class="dropdown">
                                                 <button onclick="eliminarTiempo('{{$tiempo->codPiloto}}','{{$tiempo->codTramo}}');" class="btn btn-danger" type="button">Eliminar</button>
 
                                             </div>
                                         </td>
+                                            @endif
                                     </tr>
                                 @endforeach
                                 </tbody>

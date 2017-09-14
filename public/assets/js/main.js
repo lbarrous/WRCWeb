@@ -386,48 +386,94 @@ function verTramos(codRally) {
 
             console.log(data);
 
-            //$('<div></div>').load('remote.html')
-
-            var tramos = '<table class="table table-striped">';
-            tramos += '<thead>';
-            tramos += '<tr>';
-            tramos += '<th>codTramo</th>';
-            tramos += '<th>Kilometros totales</th>';
-            tramos += '<th>Dificultad</th>';
-            tramos += '</tr>';
-            tramos += '</thead>';
-            tramos += '<tbody>';
-            $.each(data.tramos, function( index, value ) {
+            if(data.sql_compleja == 0) {
+                var tramos = '<table class="table table-striped">';
+                tramos += '<thead>';
                 tramos += '<tr>';
-                tramos += '<td>'+value.codTramo+'</td>';
-                tramos += '<td>'+value.totalKms+'</td>';
-                tramos += '<td>'+value.dificultad+'</td>';
+                tramos += '<th>codTramo</th>';
+                tramos += '<th>Kilometros totales</th>';
+                tramos += '<th>Dificultad</th>';
                 tramos += '</tr>';
-            });
-            tramos += '</tbody>';
-            tramos += '</table>';
-
-            if(data.err)
-            {
-                BootstrapDialog.show({
-                    type: BootstrapDialog.TYPE_DANGER,
-                    title: 'Error',
-                    message: data.msg
+                tramos += '</thead>';
+                tramos += '<tbody>';
+                $.each(data.tramos, function( index, value ) {
+                    tramos += '<tr>';
+                    tramos += '<td>'+value.codTramo+'</td>';
+                    tramos += '<td>'+value.totalKms+'</td>';
+                    tramos += '<td>'+value.dificultad+'</td>';
+                    tramos += '</tr>';
                 });
+                tramos += '</tbody>';
+                tramos += '</table>';
+
+                if(data.err)
+                {
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_DANGER,
+                        title: 'Error',
+                        message: data.msg
+                    });
+                }
+                else {
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_INFO,
+                        title: "Tramos del Rally "+data.codRally,
+                        message: tramos,
+                        buttons: [{
+                            label: 'Cerrar',
+                            action: function(dialogItself){
+                                dialogItself.close();
+                            }
+                        }]
+                    });
+                }
             }
             else {
-                BootstrapDialog.show({
-                    type: BootstrapDialog.TYPE_INFO,
-                    title: "Tramos del Rally "+data.codRally,
-                    message: tramos,
-                    buttons: [{
-                        label: 'Cerrar',
-                        action: function(dialogItself){
-                            dialogItself.close();
-                        }
-                    }]
+                var tramos = '<table class="table table-striped">';
+                tramos += '<thead>';
+                tramos += '<tr>';
+                tramos += '<th>Piloto</th>';
+                tramos += '<th>Tramo</th>';
+                tramos += '<th>Tiempo</th>';
+                tramos += '</tr>';
+                tramos += '</thead>';
+                tramos += '<tbody>';
+                $.each(data.tramos, function( index, value ) {
+                    tramos += '<tr>';
+                    tramos += '<td>'+value.nombreP+'</td>';
+                    tramos += '<td>'+value.codTramo+'</td>';
+                    tramos += '<td>'+value.tiempo+'</td>';
+                    tramos += '</tr>';
                 });
+                tramos += '</tbody>';
+                tramos += '</table>';
+
+                if(data.err)
+                {
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_DANGER,
+                        title: 'Error',
+                        message: data.msg
+                    });
+                }
+                else {
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_INFO,
+                        title: "Tramos del Rally "+data.codRally,
+                        message: tramos,
+                        buttons: [{
+                            label: 'Cerrar',
+                            action: function(dialogItself){
+                                dialogItself.close();
+                            }
+                        }]
+                    });
+                }
             }
+
+            //$('<div></div>').load('remote.html')
+
+
 
         },
         error: function(jqXHR,error, errorThrown) {
