@@ -1073,16 +1073,13 @@ function eliminarTiempo(codPiloto, codTramo) {
     });
 }
 
-/*function dimeSiPuedoCrearPilotos() {
+function dimeSiPuedoCrearPilotos() {
 
     var url = baseUrl + "/dimeSiPuedoCrearPilotos/";
-
     $.ajax({
         url: url,
         type: "GET",
-        dataType:"json",
         success: function (data) {
-            alert(1);
 
             console.log(data);
 
@@ -1105,4 +1102,4 @@ function eliminarTiempo(codPiloto, codTramo) {
             console.log(errorThrown);
         }
     });
-}*/
+}

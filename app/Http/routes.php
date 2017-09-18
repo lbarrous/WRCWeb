@@ -58,4 +58,4 @@ Route::get('listaPilotos', [ 'as' => 'listaPilotos', 'uses' => 'PilotoController
 Route::get('listaCoches', [ 'as' => 'listaCoches', 'uses' => 'CocheController@showListaCoches']);
 Route::get('listaResultados', [ 'as' => 'listaResultados', 'uses' => 'ResultadosController@showListaResultados']);
 Route::get('listaTiempos', [ 'as' => 'listaTiempos', 'uses' => 'TiemposController@showListaTiempos']);
-Route::get('dimeSiPuedoCrearPilotos', 'PilotoController@dimeSiPuedoCrearPilotos');
+Route::get('dimeSiPuedoCrearPilotos', [ 'as' => 'dimeSiPuedoCrearPilotos', 'uses' => 'PilotoController@dimeSiPuedoCrearPilotos']);

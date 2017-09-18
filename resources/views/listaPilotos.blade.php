@@ -50,6 +50,17 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-lg-4 col-lg-offset-4">
+                    @if(isset($datos["aviso"]))
+                        <div class="alert alert-danger" role="alert">
+                            <ul>
+                                    <li style="text-align: center;"> {{ $datos["aviso"] }} </li>
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
 
                 <div class="col-lg-12">
 

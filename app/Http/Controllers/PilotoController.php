@@ -87,6 +87,27 @@ class PilotoController extends Controller
 
     function nuevoPiloto()
     {
+        if(count($this->repoCoche->getAllCoches()) <= count($this->repoPiloto->getAllPilotos())) {
+            $opcionesDatatable = $this->inicializaOpcionesDatatable();
+
+            $opcionesDatatable["aoColumns"] = array(
+                array(null), //Aqui siempre el ID (PK)
+                array(null),
+                array(null),
+                array(null),
+                array(null),
+            );
+
+            if (!\Auth::guest())
+                $opcionesDatatable["aoColumns"][] = array(null);
+
+            $datos["opcionesDatatable"] = json_encode($opcionesDatatable);
+            $aviso = "Número de coches insuficiente, debe haber un coche libre para añadir un nuevo piloto.";
+            $datos["pilotos"] = $this->repoPiloto->getAllPilotos();
+            $datos["aviso"] = $aviso;
+            return view('listaPilotos')->with('datos', $datos);
+
+        }
         $coches_libres = $this->repoCoche->getCochesLibres();
         $datos["coches_libres"] = $coches_libres;
         $datos["nuevo_piloto"] = 1;
@@ -168,7 +189,6 @@ class PilotoController extends Controller
 
     public function dimeSiPuedoCrearPilotos()
     {
-        var_dump(1);exit;
         return count($this->repoCoche->getAllCoches()) > count($this->repoPiloto->getAllPilotos());
     }
 
